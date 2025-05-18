@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_bloc_mediator/bloc_hub/concrete_hub.dart';
 import 'package:flutter_bloc_mediator/bloc_hub/hub.dart';
 import 'package:get_it/get_it.dart';
+import 'package:task_manager/data/database/app_database.dart';
 
 import '../core/api/auth_interceptor.dart';
 import '../core/blocs/app_bloc/app_bloc.dart';
@@ -13,6 +14,8 @@ final locator = GetIt.instance;
 
 Future<void> setUpLocator() async {
   locator.registerLazySingleton<BlocHub>(() => ConcreteHub());
+  locator.registerLazySingleton(()=>AppDatabase());
+
 
   locator.registerLazySingleton<SessionManager>(() => DefaultSessionManager());
 
