@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -11,7 +10,9 @@ class SplashScreen extends StatelessWidget {
       body: Center(
         child: Text(
           'Task Manager',
-          style: TextTheme.of(context).headlineMedium?.copyWith(color: Theme.of(context).colorScheme.onPrimary),
+          style: TextTheme.of(context).headlineMedium?.copyWith(
+            color: Theme.of(context).colorScheme.onPrimary,
+          ),
         ),
       ),
     );

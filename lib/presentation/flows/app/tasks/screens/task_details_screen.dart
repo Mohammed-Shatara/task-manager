@@ -5,7 +5,6 @@ class TaskDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Text('Task Details Screen'),),);
-
+    return Scaffold(body: Center(child: Text('Task Details Screen')));
   }
 }

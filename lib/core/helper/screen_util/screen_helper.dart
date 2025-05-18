@@ -18,7 +18,9 @@ class ScreensHelper {
 
   factory ScreensHelper.of(BuildContext context) {
     return ScreensHelper(
-        MediaQuery.of(context).size.width, MediaQuery.of(context).size.height);
+      MediaQuery.of(context).size.width,
+      MediaQuery.of(context).size.height,
+    );
   }
 
   // static scaleText(double fontSize, {bool allowFontScalingSelf}) {

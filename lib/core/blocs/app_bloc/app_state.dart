@@ -28,8 +28,6 @@ class AppState extends Equatable {
   final String error;
   // final Me? me;
 
-
-
   AppState copyWith({
     bool? isLaunched,
     Status? appStatus,
@@ -56,14 +54,14 @@ class AppState extends Equatable {
 
   @override
   List<Object?> get props => [
-        isLaunched,
-        isFirstTime,
-        appStatus,
-        isError,
-        error,
-        isProfileFilled,
-        baseUrl,
+    isLaunched,
+    isFirstTime,
+    appStatus,
+    isError,
+    error,
+    isProfileFilled,
+    baseUrl,
     // me,
-        token,
-      ];
+    token,
+  ];
 }

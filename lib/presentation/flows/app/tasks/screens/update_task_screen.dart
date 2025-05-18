@@ -5,7 +5,6 @@ class UpdateTaskScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Text('Update Task Screen'),),);
-
+    return Scaffold(body: Center(child: Text('Update Task Screen')));
   }
 }

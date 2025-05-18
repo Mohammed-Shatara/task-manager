@@ -4,8 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:task_manager/core/resources/constans.dart';
 
-
-
 enum RootTabs { currency, converter, gold, settings }
 
 class RootPageWidget extends StatelessWidget {

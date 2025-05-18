@@ -21,9 +21,7 @@ class _AppState extends State<App> {
 
   @override
   void initState() {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     super.initState();
     appBloc.add(LaunchAppEvent());
   }
@@ -45,24 +43,31 @@ class _AppState extends State<App> {
         builder: (context, state) {
           return ToastificationWrapper(
             child: ScreenUtilInit(
-                designSize: const Size(375, 830),
-                minTextAdapt: true,
-                splitScreenMode: true,
-                builder: (context, child) {
-                  return MaterialApp.router(
-                    debugShowCheckedModeBanner: false,
-                    title: 'Task Manager',
-                    theme: AppTheme.appThemeData(
-                        LightModeColors(), true, Brightness.light),
-                    darkTheme: AppTheme.appThemeData(
-                        locator<AppThemeColors>(), true, Brightness.dark),
-                    themeMode: ThemeMode.light,
-                    routerConfig: router,
-                    builder: (context, child) {
-                      return child ?? const SizedBox.shrink();
-                    },
-                  );
-                }),
+              designSize: const Size(375, 830),
+              minTextAdapt: true,
+              splitScreenMode: true,
+              builder: (context, child) {
+                return MaterialApp.router(
+                  debugShowCheckedModeBanner: false,
+                  title: 'Task Manager',
+                  theme: AppTheme.appThemeData(
+                    LightModeColors(),
+                    true,
+                    Brightness.light,
+                  ),
+                  darkTheme: AppTheme.appThemeData(
+                    locator<AppThemeColors>(),
+                    true,
+                    Brightness.dark,
+                  ),
+                  themeMode: ThemeMode.light,
+                  routerConfig: router,
+                  builder: (context, child) {
+                    return child ?? const SizedBox.shrink();
+                  },
+                );
+              },
+            ),
           );
         },
       ),

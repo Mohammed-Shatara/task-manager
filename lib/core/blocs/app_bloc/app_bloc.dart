@@ -14,7 +14,8 @@ class AppBloc extends Bloc<AppEvent, AppState> with BlocMember {
   final InitAppStore initAppStore;
   final SessionManager sessionManager;
 
-  AppBloc({required this.initAppStore, required this.sessionManager}) : super(const AppState()) {
+  AppBloc({required this.initAppStore, required this.sessionManager})
+    : super(const AppState()) {
     on<LaunchAppEvent>(_onLaunchApp);
     on<ChangeStatusEvent>(_onChangeStatus);
   }
@@ -30,13 +31,20 @@ class AppBloc extends Bloc<AppEvent, AppState> with BlocMember {
 extension AppBlocMappers on AppBloc {
   void _onLaunchApp(LaunchAppEvent event, Emitter<AppState> emit) async {
     final isFirstTime = await initAppStore.isFirstTime;
-await Future.delayed(const Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 1));
     if (isFirstTime) {
       initAppStore.setFirstTime();
     }
-    Status appStatus = await sessionManager.hasToken ? Status.authorized : Status.unauthorized;
+    Status appStatus =
+        await sessionManager.hasToken ? Status.authorized : Status.unauthorized;
 
-    emit(state.copyWith(isLaunched: true, isFirstTime: isFirstTime, appStatus: appStatus));
+    emit(
+      state.copyWith(
+        isLaunched: true,
+        isFirstTime: isFirstTime,
+        appStatus: appStatus,
+      ),
+    );
     return;
   }
 

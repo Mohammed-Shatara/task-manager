@@ -1,5 +1,3 @@
 import '../../domain/repositories/auth_repository.dart';
 
-class AuthRepositoryImpl extends AuthRepository {
-
-}
+class AuthRepositoryImpl extends AuthRepository {}
