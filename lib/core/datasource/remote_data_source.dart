@@ -16,7 +16,9 @@ abstract class RemoteDataSource {
     final Map<String, String> headers = {};
     if (params.token != null && params.token!.isNotEmpty) {
       headers.putIfAbsent(
-          SessionManager.authorizeToken, () => 'Bearer ${params.token}');
+        SessionManager.authorizeToken,
+        () => 'Bearer ${params.token}',
+      );
       // print('token: ${params.token}');
     }
     // final language = await LocalizationManager.getLanguage();
@@ -29,13 +31,14 @@ abstract class RemoteDataSource {
 
     // print('data: ${params.data}');
     final response = await ApiHelper().sendRequest<Response>(
-        method: params.method,
-        mapper: params.mapper,
-        url: params.url,
-        data: params.data,
-        data1: params.data1,
-        headers: headers,
-        cancelToken: params.cancelToken);
+      method: params.method,
+      mapper: params.mapper,
+      url: params.url,
+      data: params.data,
+      data1: params.data1,
+      headers: headers,
+      cancelToken: params.cancelToken,
+    );
 
     print('123 123 Response: $response');
 

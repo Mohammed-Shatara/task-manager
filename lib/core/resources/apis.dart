@@ -1,9 +1,9 @@
-
 class ApiUrls {
   //static String get baseUrl => 'http://backend.fm/';
   static String get baseUrl => 'https://st-api.copax-fms.com/';
   // static String get baseUrl => 'https://itl-api.copax-fms.com/';
-  static String get registerFCMToken => 'https://st-fgm.copax-fms.com/subscriber/register';
+  static String get registerFCMToken =>
+      'https://st-fgm.copax-fms.com/subscriber/register';
   static String get registerFCMToken1 => '/fgm/subscriber/register';
   //  static String get registerFCMToken => 'https://itl-fgm.copax-fms.com/subscriber/register';
 
@@ -23,7 +23,8 @@ class ApiUrls {
   static String get login => '/$_auth${_v1}login';
   static String get dynamicLogin => '/$_auth${_v1}qr-token-exchange';
   static String get me => '/$_v1${_user}me';
-  static String get updateNotificationSettings => '/$_v1${_user}subscribed-events';
+  static String get updateNotificationSettings =>
+      '/$_v1${_user}subscribed-events';
   static String get forgetPassword => '/$_auth${_v1}forgot-password';
   static String get resetPassword => '/$_auth${_v1}set-password';
   static String get verifyCode => '/$_auth${_v1}verify-code';
@@ -37,17 +38,16 @@ class ApiUrls {
   static String get driver => '/${_v1}driver';
   static String get customers => '/${_v1}customer';
   static String get notificationsSettings => '/${_v1}notifications-settings';
-  static String get refreshToken  => '/$_auth${_v1}refresh';
+  static String get refreshToken => '/$_auth${_v1}refresh';
   static String get vehicleState => '/vehicle-stats';
   static String get branches => '/${_v1}branch';
   static String get mySessions => '/$_auth${_v1}my-sessions';
   static String get customerWithAlerts => '/$_alertManager${_v1}customers';
   static String get vehicleWithAlerts => '/$_alertManager${_v1}vehicles';
   static String get alerts => '/$_alertManager${_v1}alerts';
-  static String get alertByPriorities => '/$_alertManager${_v1}alerts-by-priority';
+  static String get alertByPriorities =>
+      '/$_alertManager${_v1}alerts-by-priority';
   static String get resolveAlert => '/$_alertManager${_v1}resolve-alert';
   static String get alertStats => '/$_alertManager${_v1}customers-by-priority';
   static String get terminateSession => '/terminate-session';
-
-
 }

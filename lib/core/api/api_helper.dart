@@ -15,16 +15,17 @@ import 'auth_interceptor.dart';
 import 'handler.dart';
 
 class ApiHelper with ErrorHandler, RefreshableRequest {
-  Future<Either<BaseError, T>> sendRequest<T>(
-      {required HttpMethod method,
-      required String url,
-      required T Function(dynamic) mapper,
-      Map<String, dynamic> data = const {},
-      FormData? data1,
-      Map<String, String> headers = const {},
-      CancelToken? cancelToken,
-      bool withRefreshToken = true}) async {
-    print('withRefreshToken: ${withRefreshToken}');
+  Future<Either<BaseError, T>> sendRequest<T>({
+    required HttpMethod method,
+    required String url,
+    required T Function(dynamic) mapper,
+    Map<String, dynamic> data = const {},
+    FormData? data1,
+    Map<String, String> headers = const {},
+    CancelToken? cancelToken,
+    bool withRefreshToken = true,
+  }) async {
+    print('withRefreshToken: $withRefreshToken');
     Dio dio = withRefreshToken ? getRefreshableDio() : Dio();
 
     try {
@@ -32,18 +33,21 @@ class ApiHelper with ErrorHandler, RefreshableRequest {
 
       switch (method) {
         case HttpMethod.get:
-          log('method: [$method] url: [$url] data: [$data] headers: [$headers]');
+          log(
+            'method: [$method] url: [$url] data: [$data] headers: [$headers]',
+          );
 
           response = await dio.get(
             url,
             queryParameters: data,
             options: Options(
-                sendTimeout: const Duration(minutes: 30),
-                headers: headers,
-                followRedirects: false,
-                validateStatus: (status) {
-                  return status! <= 500 && status != 403 && status != 401;
-                }),
+              sendTimeout: const Duration(minutes: 30),
+              headers: headers,
+              followRedirects: false,
+              validateStatus: (status) {
+                return status! <= 500 && status != 403 && status != 401;
+              },
+            ),
             cancelToken: cancelToken,
           );
           break;
@@ -55,11 +59,12 @@ class ApiHelper with ErrorHandler, RefreshableRequest {
             url,
             data: json.encode(data),
             options: Options(
-                headers: headers,
-                followRedirects: false,
-                validateStatus: (status) {
-                  return status! < 500 && status != 403;
-                }),
+              headers: headers,
+              followRedirects: false,
+              validateStatus: (status) {
+                return status! < 500 && status != 403;
+              },
+            ),
             // cancelToken: cancelToken,
           );
 
@@ -70,11 +75,12 @@ class ApiHelper with ErrorHandler, RefreshableRequest {
             data: data,
             queryParameters: data,
             options: Options(
-                headers: headers,
-                followRedirects: false,
-                validateStatus: (status) {
-                  return status! < 500 && status != 403;
-                }),
+              headers: headers,
+              followRedirects: false,
+              validateStatus: (status) {
+                return status! < 500 && status != 403;
+              },
+            ),
             cancelToken: cancelToken,
           );
           break;
@@ -86,11 +92,12 @@ class ApiHelper with ErrorHandler, RefreshableRequest {
             data: data1 ?? data,
             //   queryParameters: data,
             options: Options(
-                headers: headers,
-                followRedirects: false,
-                validateStatus: (status) {
-                  return status! < 500 && status != 403;
-                }),
+              headers: headers,
+              followRedirects: false,
+              validateStatus: (status) {
+                return status! < 500 && status != 403;
+              },
+            ),
             cancelToken: cancelToken,
           );
           break;
@@ -102,11 +109,12 @@ class ApiHelper with ErrorHandler, RefreshableRequest {
             data: FormData.fromMap(data),
             queryParameters: data,
             options: Options(
-                headers: headers,
-                followRedirects: false,
-                validateStatus: (status) {
-                  return status! < 500 && status != 401 && status != 403;
-                }),
+              headers: headers,
+              followRedirects: false,
+              validateStatus: (status) {
+                return status! < 500 && status != 401 && status != 403;
+              },
+            ),
             cancelToken: cancelToken,
           );
           break;

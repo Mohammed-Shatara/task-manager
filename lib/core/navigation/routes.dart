@@ -1,6 +1,5 @@
 import 'dart:async';
 
-
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:task_manager/presentation/flows/app/root.dart';
@@ -25,20 +24,14 @@ class RoutesPath {
 
   static String get homeScreen => '/root';
 
-
   static String taskDetailsScreen(String id) => '$homeScreen/task-details/$id';
   static String get createTaskScreen => '/create-task';
-  static String  updateTaskScreen(String id)=> '/update-task/$id';
-
-
+  static String updateTaskScreen(String id) => '/update-task/$id';
 
   static String get profilePage => '/profile';
 
   static String get loginPage => '/login';
   static String get registerPage => '$loginPage/register';
-
-
-
 }
 
 final router = GoRouter(
@@ -90,30 +83,29 @@ final List<RouteBase> routes = [
   ),
 
   GoRoute(
-      parentNavigatorKey: rootNavigatorKey,
-      name: 'login-screen',
-      path: '/login',
-      builder: (context, state) => const LoginScreen(),
-      redirect: (context, goRouterState) {
-        if (locator<AppBloc>().state.appStatus == Status.authorized &&
-            goRouterState.path == RoutesPath.loginPage) {
-          return RoutesPath.homeScreen;
-        }
-        return null;
-      },
-      routes: [
-        GoRoute(
-          path: 'register',
-          builder: (context, state) {
-            return const RegisterScreen();
-          },
-        ),
-      ]),
+    parentNavigatorKey: rootNavigatorKey,
+    name: 'login-screen',
+    path: '/login',
+    builder: (context, state) => const LoginScreen(),
+    redirect: (context, goRouterState) {
+      if (locator<AppBloc>().state.appStatus == Status.authorized &&
+          goRouterState.path == RoutesPath.loginPage) {
+        return RoutesPath.homeScreen;
+      }
+      return null;
+    },
+    routes: [
+      GoRoute(
+        path: 'register',
+        builder: (context, state) {
+          return const RegisterScreen();
+        },
+      ),
+    ],
+  ),
   StatefulShellRoute.indexedStack(
     builder: (context, state, navigationShell) {
-      return RootPageWidget(
-        navigationShell,
-      );
+      return RootPageWidget(navigationShell);
     },
     branches: [
       StatefulShellBranch(
@@ -127,9 +119,9 @@ final List<RouteBase> routes = [
             builder: (context, state) => const HomeScreen(),
             routes: [
               GoRoute(
-                  path: 'task-details/:taskId',
-                  builder: (context, state) => const TaskDetailsScreen(),
-                 )
+                path: 'task-details/:taskId',
+                builder: (context, state) => const TaskDetailsScreen(),
+              ),
             ],
             redirect: (context, goRouterState) {
               if (locator<AppBloc>().state.appStatus == Status.unauthorized) {
@@ -141,18 +133,21 @@ final List<RouteBase> routes = [
         ],
       ),
 
-      StatefulShellBranch(initialLocation: '/profile', routes: <RouteBase>[
-        GoRoute(
-          path: '/profile',
-          builder: (context, state) => const ProfileScreen(),
-          redirect: (context, goRouterState) {
-            if (locator<AppBloc>().state.appStatus == Status.unauthorized) {
-              return RoutesPath.loginPage;
-            }
-            return null;
-          },
-        ),
-      ]),
+      StatefulShellBranch(
+        initialLocation: '/profile',
+        routes: <RouteBase>[
+          GoRoute(
+            path: '/profile',
+            builder: (context, state) => const ProfileScreen(),
+            redirect: (context, goRouterState) {
+              if (locator<AppBloc>().state.appStatus == Status.unauthorized) {
+                return RoutesPath.loginPage;
+              }
+              return null;
+            },
+          ),
+        ],
+      ),
     ],
   ),
 ];

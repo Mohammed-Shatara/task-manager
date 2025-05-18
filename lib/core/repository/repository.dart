@@ -7,9 +7,7 @@ abstract class Repository {
     required Either<BaseError, Model> remoteResult,
   }) {
     if (remoteResult.isRight()) {
-      return Result(
-        data: (remoteResult as Right<BaseError, Model>).value,
-      );
+      return Result(data: (remoteResult as Right<BaseError, Model>).value);
     } else {
       return Result(error: (remoteResult as Left<BaseError, Model>).value);
     }

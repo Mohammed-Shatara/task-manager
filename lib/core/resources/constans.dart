@@ -26,13 +26,14 @@ class SvgKeys {
 
   static String get activeProfile => "lib/assets/icons/navbar/profile-2.svg";
   static String get profile => "lib/assets/icons/navbar/profile.svg";
-
-
 }
 
 class AppTheme {
   static ThemeData appThemeData(
-      AppThemeColors appThemeColors, bool localeEn, Brightness brightness) {
+    AppThemeColors appThemeColors,
+    bool localeEn,
+    Brightness brightness,
+  ) {
     return ThemeData(
       colorScheme: ColorScheme.fromSeed(
         seedColor: appThemeColors.primary40,
