@@ -2,7 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter_bloc_mediator/bloc_hub/concrete_hub.dart';
 import 'package:flutter_bloc_mediator/bloc_hub/hub.dart';
 import 'package:get_it/get_it.dart';
+import 'package:task_manager/data/data_sources/auth/auth_data_source_impl.dart';
 import 'package:task_manager/data/database/app_database.dart';
+import 'package:task_manager/data/repositories/auth_repository_impl.dart';
 
 import '../core/api/auth_interceptor.dart';
 import '../core/blocs/app_bloc/app_bloc.dart';
@@ -14,8 +16,7 @@ final locator = GetIt.instance;
 
 Future<void> setUpLocator() async {
   locator.registerLazySingleton<BlocHub>(() => ConcreteHub());
-  locator.registerLazySingleton(()=>AppDatabase());
-
+  locator.registerLazySingleton(() => AppDatabase());
 
   locator.registerLazySingleton<SessionManager>(() => DefaultSessionManager());
 
@@ -32,6 +33,15 @@ Future<void> setUpLocator() async {
 
   locator.registerLazySingleton(
     () => AppBloc(initAppStore: locator(), sessionManager: locator()),
+  );
+
+  ///********************************* Auth ******************************************
+  locator.registerLazySingleton(
+    () => AuthDataSourceImpl(locator<AppDatabase>().userDao),
+  );
+
+  locator.registerLazySingleton(
+    () => AuthRepositoryImpl(locator<AuthDataSourceImpl>()),
   );
 
   locator<BlocHub>().registerByName(

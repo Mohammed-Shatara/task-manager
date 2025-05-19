@@ -1,9 +1,42 @@
-import '../../../core/usecases/base_use_case.dart';
+import 'package:task_manager/domain/use_cases/auth/validations/register_validator_use_case.dart';
 
-class RegisterUseCase extends UseCase {
+import '../../../core/error/base_error.dart';
+import '../../../core/param/base_param.dart';
+import '../../../core/result/result.dart';
+import '../../../core/usecases/base_use_case.dart';
+import '../../../data/models/user_model.dart';
+import '../../repositories/auth_repository.dart';
+
+class RegisterUseCase
+    extends UseCase<Future<Result<BaseError, UserModel>>, RegisterParams> {
+  final RegisterValidatorUseCase registerValidatorUseCase;
+  final AuthRepository authRepository;
+
+  RegisterUseCase({
+    required this.registerValidatorUseCase,
+    required this.authRepository,
+  });
+
   @override
-  call(params) {
-    // TODO: implement call
-    throw UnimplementedError();
+  Future<Result<BaseError, UserModel>> call(RegisterParams params) async {
+    final validationResult = registerValidatorUseCase(params);
+
+    if (validationResult.hasErrorOnly) {
+      return Result(error: validationResult.error!);
+    }
+
+    return await authRepository.login(params.email, params.password);
   }
+}
+
+class RegisterParams extends BaseParams {
+  final String fullName;
+  final String email;
+  final String password;
+
+  RegisterParams({
+    required this.fullName,
+    required this.email,
+    required this.password,
+  });
 }

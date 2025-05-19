@@ -39,6 +39,19 @@ class TasksDataSourceImpl extends TasksDataSource {
   }
 
   @override
+  Future<Either<BaseError, TaskModel>> getTaskById(int id) async {
+    try {
+      final task = await taskDao.getTaskById(id);
+      if (task == null) {
+        return Left(CustomError(message: 'Task not found'));
+      }
+      return Right(TaskModel.fromTable(task));
+    } catch (e) {
+      return Left(CustomError(message: 'Unexpected error: $e'));
+    }
+  }
+
+  @override
   Stream<List<TaskModel>> watchTasksByUserId(int userId) {
     return taskDao.watchAllTasks().map(
       (taskRows) => taskRows.map((task) => TaskModel.fromTable(task)).toList(),
