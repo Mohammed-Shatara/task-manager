@@ -6,6 +6,7 @@ import 'package:dartz/dartz.dart';
 
 import '../../database/dao/task_dao.dart';
 import '../../models/task_model.dart';
+import '../../requests/task_requests.dart';
 
 class TasksDataSourceImpl extends TasksDataSource {
   final TaskDao taskDao;
@@ -13,7 +14,7 @@ class TasksDataSourceImpl extends TasksDataSource {
   TasksDataSourceImpl(this.taskDao);
 
   @override
-  Future<Either<BaseError, int>> createTask(TaskModel task) async {
+  Future<Either<BaseError, int>> createTask(TaskRequest task) async {
     try {
       final id = await taskDao.createTask(task.toCompanion());
       return right(id);
@@ -52,17 +53,17 @@ class TasksDataSourceImpl extends TasksDataSource {
   }
 
   @override
-  Stream<List<TaskModel>> watchTasksByUserId(int userId) {
+  Stream<List<TaskModel>> watchTasks() {
     return taskDao.watchAllTasks().map(
       (taskRows) => taskRows.map((task) => TaskModel.fromTable(task)).toList(),
     );
   }
 
   @override
-  Future<Either<BaseError, Unit>> updateTask(TaskModel task) async {
+  Future<Either<BaseError, bool>> updateTask(TaskRequest task) async {
     try {
       await taskDao.updateTask(task.toCompanion());
-      return right(unit);
+      return right(true);
     } catch (e) {
       return left(
         CustomError(message: 'Failed to update task: ${e.toString()}'),
@@ -71,10 +72,10 @@ class TasksDataSourceImpl extends TasksDataSource {
   }
 
   @override
-  Future<Either<BaseError, Unit>> deleteTask(int id) async {
+  Future<Either<BaseError, bool>> deleteTask(int id) async {
     try {
       await taskDao.deleteTask(id);
-      return right(unit);
+      return right(true);
     } catch (e) {
       return left(
         CustomError(message: 'Failed to delete task: ${e.toString()}'),

@@ -27,15 +27,17 @@ class LoginValidatorUseCase
       requiredValidator,
       emailValidator,
     ], true);
-    if (emailError != null)
+    if (emailError != null) {
       return Result(error: CustomError(message: emailError));
+    }
 
     final passwordError = BaseValidator.validateValue(params.password, [
       requiredValidator,
       passwordValidator,
     ], true);
-    if (passwordError != null)
+    if (passwordError != null) {
       return Result(error: CustomError(message: passwordError));
+    }
 
     return Result(data: true);
   }

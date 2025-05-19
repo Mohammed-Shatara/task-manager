@@ -1,5 +1,5 @@
-abstract class BaseValidator {
-  bool validateFunction(String? value);
+abstract class BaseValidator<T> {
+  bool validateFunction(T? value);
 
   String getValidateMessage();
 

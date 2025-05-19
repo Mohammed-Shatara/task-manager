@@ -3,6 +3,7 @@ import 'package:task_manager/core/error/custom_error.dart';
 
 import '../../database/dao/user_dao.dart';
 import '../../models/user_model.dart';
+import '../../requests/user_request.dart';
 import 'auth_data_source.dart';
 
 import 'package:dartz/dartz.dart';
@@ -36,9 +37,13 @@ class AuthDataSourceImpl extends AuthDataSource {
   }
 
   @override
-  Future<Either<BaseError, int>> createUser(UserModel userModel) async {
+  Future<Either<BaseError, int>> createUser(UserRequest userRequest) async {
     try {
-      final id = await userDao.createUser(userModel.toCompanion());
+      final existingUser = await userDao.getUserByEmail(userRequest.email);
+      if (existingUser != null) {
+        return left(CustomError(message: 'Email already exists'));
+      }
+      final id = await userDao.createUser(userRequest.toCompanion());
       return right(id);
     } catch (e) {
       return left(

@@ -1,6 +1,6 @@
 import 'base_validator.dart';
 
-class PhoneNumValidator extends BaseValidator {
+class PhoneNumValidator extends BaseValidator<String> {
   final int minLength;
 
   PhoneNumValidator({required this.minLength});
