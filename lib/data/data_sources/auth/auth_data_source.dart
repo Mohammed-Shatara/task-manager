@@ -6,5 +6,6 @@ import '../../requests/user_request.dart';
 
 abstract class AuthDataSource {
   Future<Either<BaseError, UserModel>> login(String email, String password);
+  Future<Either<BaseError, UserModel>> getUserById(int id);
   Future<Either<BaseError, int>> createUser(UserRequest userRequest);
 }

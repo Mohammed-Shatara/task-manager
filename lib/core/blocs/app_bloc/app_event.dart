@@ -7,9 +7,9 @@ class LaunchAppEvent extends AppEvent {}
 
 class LogoutEvent extends AppEvent {}
 
-class ChangeStatusEvent extends AppEvent {
-  final Status appStatus;
-  final String? token;
+class SetAppStatusEvent extends AppEvent {
+  final AppStatus appStatus;
+  final bool? isFirstTime;
 
-  ChangeStatusEvent({required this.appStatus, this.token});
+  SetAppStatusEvent(this.appStatus, {this.isFirstTime});
 }

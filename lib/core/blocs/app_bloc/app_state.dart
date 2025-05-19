@@ -6,19 +6,17 @@ class AppState extends Equatable {
   const AppState({
     this.isLaunched = false,
     this.isFirstTime = false,
-    // this.me,
+     this.me,
     this.appStatus = Status.startup,
     this.baseUrl,
     this.isError = false,
     this.isProfileFilled = true,
-    this.token,
     this.error = '',
   });
 
   final bool isFirstTime;
   final bool isLaunched;
   final String? baseUrl;
-  final String? token;
 
   final Status appStatus;
 
@@ -26,7 +24,7 @@ class AppState extends Equatable {
 
   final bool isError;
   final String error;
-  // final Me? me;
+   final UserModel? me;
 
   AppState copyWith({
     bool? isLaunched,
@@ -34,8 +32,7 @@ class AppState extends Equatable {
     String? error,
     String? baseUrl,
     bool? isFirstTime,
-    // Me? me,
-    String? token,
+    UserModel? me,
     bool? isError,
     bool? isProfileFilled,
   }) {
@@ -44,11 +41,10 @@ class AppState extends Equatable {
       isError: isError ?? this.isError,
       error: error ?? this.error,
       baseUrl: baseUrl ?? this.baseUrl,
-      token: token ?? this.token,
       isFirstTime: isFirstTime ?? this.isFirstTime,
       appStatus: appStatus ?? this.appStatus,
       isProfileFilled: isProfileFilled ?? this.isProfileFilled,
-      // me: me?? this.me,
+      me: me?? this.me,
     );
   }
 
@@ -61,7 +57,6 @@ class AppState extends Equatable {
     error,
     isProfileFilled,
     baseUrl,
-    // me,
-    token,
+     me,
   ];
 }
