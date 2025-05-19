@@ -20,7 +20,7 @@ class TaskDao extends DatabaseAccessor<AppDatabase> with _$TaskDaoMixin {
   Future<Task?> getTaskById(int id) =>
       (select(tasks)..where((t) => t.id.equals(id))).getSingleOrNull();
 
-  Future updateTask(TasksCompanion task) => update(tasks).replace(task);
+  Future<bool> updateTask(TasksCompanion task) => update(tasks).replace(task);
 
-  Future deleteTask(int id) => (delete(tasks)..where((t) => t.id.equals(id))).go();
+  Future<int> deleteTask(int id) => (delete(tasks)..where((t) => t.id.equals(id))).go();
 }

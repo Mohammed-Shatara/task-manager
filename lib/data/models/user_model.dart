@@ -41,7 +41,6 @@ class UserModel {
   );
 
   UsersCompanion toCompanion() => UsersCompanion(
-    id: Value(id),
     fullname: Value(fullname),
     email: Value(email),
     password: Value(password),

@@ -57,7 +57,6 @@ class TaskModel {
   );
 
   TasksCompanion toCompanion() => TasksCompanion(
-    id: Value(id),
     userId: Value(userId),
     name: Value(name),
     description: Value(description),

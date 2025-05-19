@@ -25,7 +25,7 @@ class LoginUseCase
       return Result(error: validationResult.error!);
     }
 
-    return await authRepository.login(params.email, params.password);
+    return authRepository.login(params.email, params.password);
   }
 }
 

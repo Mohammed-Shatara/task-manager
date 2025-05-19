@@ -1,6 +1,6 @@
 import 'base_validator.dart';
 
-class EmailValidator extends BaseValidator {
+class EmailValidator extends BaseValidator<String> {
   @override
   String getValidateMessage() {
     return "Invalid Email";

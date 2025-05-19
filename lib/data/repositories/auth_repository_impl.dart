@@ -4,6 +4,7 @@ import 'package:task_manager/core/result/result.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../data_sources/auth/auth_data_source.dart';
 import '../models/user_model.dart';
+import '../requests/user_request.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
   final AuthDataSource authDataSource;
@@ -20,13 +21,13 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Future<Result<BaseError, UserModel>> createUser(UserModel userModel) async {
-    final creationResult = await authDataSource.createUser(userModel);
+  Future<Result<BaseError, UserModel>> createUser(UserRequest userRequest) async {
+    final creationResult = await authDataSource.createUser(userRequest);
 
     return creationResult.fold((failure) => Result(error: failure), (_) async {
       final loginResult = await authDataSource.login(
-        userModel.email,
-        userModel.password,
+        userRequest.email,
+        userRequest.password,
       );
       return loginResult.fold(
         (loginFailure) => Result(error: loginFailure),

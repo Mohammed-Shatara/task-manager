@@ -1,6 +1,6 @@
 import 'base_validator.dart';
 
-class PasswordValidator extends BaseValidator {
+class PasswordValidator extends BaseValidator<String> {
   final int minLength;
 
   PasswordValidator({required this.minLength});
@@ -20,7 +20,7 @@ class PasswordValidator extends BaseValidator {
   }
 }
 
-class MinimumValidator extends BaseValidator {
+class MinimumValidator extends BaseValidator<String> {
   final int minLength;
 
   MinimumValidator({required this.minLength});
@@ -40,7 +40,7 @@ class MinimumValidator extends BaseValidator {
   }
 }
 
-class MatchValidator extends BaseValidator {
+class MatchValidator extends BaseValidator<String> {
   final String? text;
 
   MatchValidator({required this.text});

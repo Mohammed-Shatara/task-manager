@@ -1,3 +1,17 @@
 import 'package:task_manager/core/repository/repository.dart';
+import 'package:task_manager/core/result/result.dart';
 
-class TasksRepository extends Repository {}
+import '../../core/error/base_error.dart';
+import '../../data/models/task_model.dart';
+import '../../data/requests/task_requests.dart';
+
+abstract class TasksRepository extends Repository {
+  Future<Result<BaseError, int>> createTask(TaskRequest task);
+  Future<Result<BaseError, List<TaskModel>>> getTasksByUserId(int userId);
+  Future<Result<BaseError, List<TaskModel>>> getAllTasks();
+  Stream<List<TaskModel>> watchTasks();
+  Future<Result<BaseError, TaskModel>> getTaskById(int id);
+
+  Future<Result<BaseError, bool>> updateTask(TaskRequest task);
+  Future<Result<BaseError, bool>> deleteTask(int id);
+}

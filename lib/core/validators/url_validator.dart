@@ -1,6 +1,6 @@
 import 'base_validator.dart';
 
-class UrlValidator extends BaseValidator {
+class UrlValidator extends BaseValidator<String> {
   @override
   String getValidateMessage() {
     return "Invalid Url";
