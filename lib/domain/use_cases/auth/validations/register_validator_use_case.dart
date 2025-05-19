@@ -2,7 +2,6 @@ import 'package:task_manager/domain/use_cases/auth/register_use_case.dart';
 
 import '../../../../core/error/base_error.dart';
 import '../../../../core/error/custom_error.dart';
-import '../../../../core/param/base_param.dart';
 import '../../../../core/result/result.dart';
 import '../../../../core/usecases/base_use_case.dart';
 import '../../../../core/validators/base_validator.dart';
@@ -31,22 +30,25 @@ class RegisterValidatorUseCase
       minimumValidator,
     ], true);
 
-    if (minimumError != null)
+    if (minimumError != null) {
       return Result(error: CustomError(message: minimumError));
+    }
 
     final emailError = BaseValidator.validateValue(params.email, [
       requiredValidator,
       emailValidator,
     ], true);
-    if (emailError != null)
+    if (emailError != null) {
       return Result(error: CustomError(message: emailError));
+    }
 
     final passwordError = BaseValidator.validateValue(params.password, [
       requiredValidator,
       passwordValidator,
     ], true);
-    if (passwordError != null)
+    if (passwordError != null) {
       return Result(error: CustomError(message: passwordError));
+    }
 
     return Result(data: true);
   }
