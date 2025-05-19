@@ -8,4 +8,5 @@ import '../../data/requests/user_request.dart';
 abstract class AuthRepository extends Repository {
   Future<Result<BaseError, UserModel>> login(String email, String password);
   Future<Result<BaseError, UserModel>> createUser(UserRequest userRequest);
+  Future<Result<BaseError, UserModel>> getUserById(int id);
 }
