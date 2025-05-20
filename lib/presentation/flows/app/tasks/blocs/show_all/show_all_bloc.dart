@@ -34,7 +34,7 @@ extension ShowAllBlocMappers on ShowAllBloc {
   }
 
   void _onGetUserTasks(GetUserTaskEvent event, Emitter<ShowAllState> emit) async {
-    emit(state.copyWith(status: PageStatus.loading));
+    emit(state.copyWith(userTasksStatus: PageStatus.loading));
     final result = await getUserTaskUseCase(event.userId);
     if (result.hasDataOnly) {
       emit(
@@ -45,7 +45,7 @@ extension ShowAllBlocMappers on ShowAllBloc {
         ),
       );
     } else {
-      emit(state.copyWith(status: PageStatus.error, error: result.error.toString()));
+      emit(state.copyWith(userTasksStatus: PageStatus.error, error: result.error.toString()));
     }
   }
 

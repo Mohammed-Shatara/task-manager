@@ -75,6 +75,7 @@ extension AuthBlocMappers on AuthBloc {
 
     final validate = loginValidatorUseCase(loginParams);
 
+
     if (validate.hasDataOnly) {
       emit(
         state.copyWith(

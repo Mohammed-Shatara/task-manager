@@ -11,6 +11,7 @@ extension TasksTypeExtension on TasksType {
 class ShowAllState extends Equatable {
   const ShowAllState({
      this.status = PageStatus.init,
+     this.userTasksStatus = PageStatus.init,
      this.type = TasksType.all,
      this.displayedList = const [],
      this.userTasksList  = const [],
@@ -20,6 +21,7 @@ class ShowAllState extends Equatable {
 
 
   final PageStatus status;
+  final PageStatus userTasksStatus;
   final TasksType type;
   final List<TaskModel> displayedList;
   final List<TaskModel> userTasksList;
@@ -28,6 +30,7 @@ class ShowAllState extends Equatable {
 
   ShowAllState copyWith({
     PageStatus? status,
+    PageStatus? userTasksStatus,
     TasksType? type,
     List<TaskModel>? displayedList,
     List<TaskModel>? userTasksList,
@@ -36,6 +39,7 @@ class ShowAllState extends Equatable {
   }) {
     return ShowAllState(
       status: status ?? this.status,
+      userTasksStatus: userTasksStatus ?? this.userTasksStatus,
       type: type ?? this.type,
       displayedList: displayedList ?? this.displayedList,
       userTasksList: userTasksList ?? this.userTasksList,
@@ -47,6 +51,7 @@ class ShowAllState extends Equatable {
   @override
   List<Object?> get props => [
     status,
+    userTasksStatus,
     type,
     displayedList,
     userTasksList,

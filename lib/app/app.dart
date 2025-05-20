@@ -7,6 +7,7 @@ import '../core/blocs/app_bloc/app_bloc.dart';
 import '../core/navigation/routes.dart';
 import '../core/resources/colors.dart';
 import '../core/resources/constans.dart';
+import '../presentation/flows/auth/bloc/auth_bloc.dart';
 import 'di.dart';
 
 class App extends StatefulWidget {
@@ -29,6 +30,7 @@ class _AppState extends State<App> {
   @override
   void dispose() {
     appBloc.close();
+    locator<AuthBloc>().close();
     super.dispose();
   }
 
