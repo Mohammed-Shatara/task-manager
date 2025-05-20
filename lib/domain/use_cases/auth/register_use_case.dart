@@ -8,11 +8,15 @@ import '../../../core/usecases/base_use_case.dart';
 import '../../../data/models/user_model.dart';
 import '../../repositories/auth_repository.dart';
 
-class RegisterUseCase extends UseCase<Future<Result<BaseError, UserModel>>, RegisterParams> {
+class RegisterUseCase
+    extends UseCase<Future<Result<BaseError, UserModel>>, RegisterParams> {
   final RegisterValidatorUseCase registerValidatorUseCase;
   final AuthRepository authRepository;
 
-  RegisterUseCase({required this.registerValidatorUseCase, required this.authRepository});
+  RegisterUseCase({
+    required this.registerValidatorUseCase,
+    required this.authRepository,
+  });
 
   @override
   Future<Result<BaseError, UserModel>> call(RegisterParams params) async {
@@ -23,7 +27,11 @@ class RegisterUseCase extends UseCase<Future<Result<BaseError, UserModel>>, Regi
     }
 
     return authRepository.createUser(
-      UserRequest(fullname: params.fullName, email: params.email, password: params.password),
+      UserRequest(
+        fullname: params.fullName,
+        email: params.email,
+        password: params.password,
+      ),
     );
   }
 }
@@ -33,5 +41,9 @@ class RegisterParams extends BaseParams {
   final String email;
   final String password;
 
-  RegisterParams({required this.fullName, required this.email, required this.password});
+  RegisterParams({
+    required this.fullName,
+    required this.email,
+    required this.password,
+  });
 }

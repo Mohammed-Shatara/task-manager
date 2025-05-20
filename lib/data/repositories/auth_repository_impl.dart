@@ -12,17 +12,25 @@ class AuthRepositoryImpl extends AuthRepository {
   AuthRepositoryImpl(this.authDataSource);
 
   @override
-  Future<Result<BaseError, UserModel>> login(String email, String password) async {
+  Future<Result<BaseError, UserModel>> login(
+    String email,
+    String password,
+  ) async {
     final result = await authDataSource.login(email, password);
     return executeWithoutConvert(remoteResult: result);
   }
 
   @override
-  Future<Result<BaseError, UserModel>> createUser(UserRequest userRequest) async {
+  Future<Result<BaseError, UserModel>> createUser(
+    UserRequest userRequest,
+  ) async {
     final creationResult = await authDataSource.createUser(userRequest);
 
     return creationResult.fold((failure) => Result(error: failure), (_) async {
-      final loginResult = await authDataSource.login(userRequest.email, userRequest.password);
+      final loginResult = await authDataSource.login(
+        userRequest.email,
+        userRequest.password,
+      );
       return loginResult.fold(
         (loginFailure) => Result(error: loginFailure),
         (user) => Result(data: user),

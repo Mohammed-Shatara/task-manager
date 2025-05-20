@@ -16,7 +16,16 @@ class DeleteTaskCubit extends Cubit<DeleteTaskState> {
     if (result.hasDataOnly) {
       emit(state.copyWith(status: PageStatus.success));
     } else {
-      emit(state.copyWith(status: PageStatus.error, error: result.error.toString()));
+      emit(
+        state.copyWith(
+          status: PageStatus.error,
+          error: result.error.toString(),
+        ),
+      );
     }
+  }
+
+  void resetErrorState() {
+    emit(state.copyWith(error: '', status: PageStatus.init));
   }
 }

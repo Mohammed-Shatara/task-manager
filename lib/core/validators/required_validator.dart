@@ -12,10 +12,7 @@ class RequiredValidator extends BaseValidator<String> {
   }
 }
 
-
 class DateValidator extends BaseValidator<DateTime> {
-
-
   @override
   String getValidateMessage() => "Date must be in the future";
 

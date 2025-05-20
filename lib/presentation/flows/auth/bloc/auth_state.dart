@@ -70,7 +70,7 @@ class RegisterState extends Equatable {
     this.email = '',
     this.password = '',
     this.error = '',
-    this.valid ,
+    this.valid,
   });
 
   RegisterState copyWith({

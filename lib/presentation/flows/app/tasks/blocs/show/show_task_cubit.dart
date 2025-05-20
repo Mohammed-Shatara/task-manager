@@ -18,7 +18,12 @@ class ShowTaskCubit extends Cubit<ShowState> {
     if (result.hasDataOnly) {
       emit(state.copyWith(status: PageStatus.success, taskModel: result.data));
     } else {
-      emit(state.copyWith(status: PageStatus.error, error: result.error.toString()));
+      emit(
+        state.copyWith(
+          status: PageStatus.error,
+          error: result.error.toString(),
+        ),
+      );
     }
   }
 }

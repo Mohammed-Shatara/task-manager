@@ -14,43 +14,68 @@ class TasksRepositoryImpl extends TasksRepository {
   @override
   Future<Result<BaseError, TaskModel>> getTaskById(int id) async {
     final result = await tasksDataSource.getTaskById(id);
-    return result.fold((error) => Result(error: error), (data) => Result(data: data));
+    return result.fold(
+      (error) => Result(error: error),
+      (data) => Result(data: data),
+    );
   }
 
   @override
   Future<Result<BaseError, int>> createTask(TaskRequest task) async {
     final result = await tasksDataSource.createTask(task);
-    return result.fold((error) => Result(error: error), (data) => Result(data: data));
+    return result.fold(
+      (error) => Result(error: error),
+      (data) => Result(data: data),
+    );
   }
 
   @override
-  Future<Result<BaseError, bool>> updateTask(TaskRequest task) async {
+  Future<Result<BaseError, bool>> updateTask(UpdateTaskRequest task) async {
     final result = await tasksDataSource.updateTask(task);
-    return result.fold((error) => Result(error: error), (data) => Result(data: data));
+    return result.fold(
+      (error) => Result(error: error),
+      (data) => Result(data: data),
+    );
   }
 
   @override
   Future<Result<BaseError, bool>> deleteTask(int id) async {
     final result = await tasksDataSource.deleteTask(id);
-    return result.fold((error) => Result(error: error), (data) => Result(data: data));
+    return result.fold(
+      (error) => Result(error: error),
+      (data) => Result(data: data),
+    );
   }
 
   @override
   Future<Result<BaseError, List<TaskModel>>> getAllTasks() async {
     final result = await tasksDataSource.getAllTasks();
 
-    return result.fold((error) => Result(error: error), (data) => Result(data: data));
+    return result.fold(
+      (error) => Result(error: error),
+      (data) => Result(data: data),
+    );
   }
 
   @override
-  Future<Result<BaseError, List<TaskModel>>> getTasksByUserId(int userId) async {
+  Future<Result<BaseError, List<TaskModel>>> getTasksByUserId(
+    int userId,
+  ) async {
     final result = await tasksDataSource.getTasksByUserId(userId);
 
-    return result.fold((error) => Result(error: error), (data) => Result(data: data));
+    return result.fold(
+      (error) => Result(error: error),
+      (data) => Result(data: data),
+    );
   }
 
   @override
   Stream<List<TaskModel>> watchTasks() {
     return tasksDataSource.watchTasks();
+  }
+
+  @override
+  Stream<List<TaskWithUserModel>> watchTasksWithUsers() {
+    return tasksDataSource.watchTasksWithUsers();
   }
 }

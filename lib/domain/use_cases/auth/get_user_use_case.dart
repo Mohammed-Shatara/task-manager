@@ -5,7 +5,8 @@ import '../../../core/error/base_error.dart';
 import '../../../core/result/result.dart';
 import '../../../core/usecases/base_use_case.dart';
 
-class GetUserUseCase extends UseCase<Future<Result<BaseError, UserModel>>, int> {
+class GetUserUseCase
+    extends UseCase<Future<Result<BaseError, UserModel>>, int> {
   final AuthRepository authRepository;
 
   GetUserUseCase({required this.authRepository});

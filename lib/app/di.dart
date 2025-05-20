@@ -45,19 +45,27 @@ Future<void> setUpLocator() async {
 
   locator.registerFactory(() => Dio());
 
-  locator.registerLazySingleton(() => AuthInterceptor(locator<SessionManager>(), locator()));
+  locator.registerLazySingleton(
+    () => AuthInterceptor(locator<SessionManager>(), locator()),
+  );
 
   locator.registerLazySingleton(() => InitAppStore());
-  locator.registerFactory<AppThemeColors>(() => ThemeFactory.colorModeFactory(AppThemeMode.light));
-
-
+  locator.registerFactory<AppThemeColors>(
+    () => ThemeFactory.colorModeFactory(AppThemeMode.light),
+  );
 
   ///********************************* Auth ******************************************
-  locator.registerLazySingleton(() => AuthDataSourceImpl(locator<AppDatabase>().userDao));
+  locator.registerLazySingleton(
+    () => AuthDataSourceImpl(locator<AppDatabase>().userDao),
+  );
 
-  locator.registerLazySingleton<AuthRepositoryImpl>(() => AuthRepositoryImpl(locator<AuthDataSourceImpl>()));
+  locator.registerLazySingleton<AuthRepositoryImpl>(
+    () => AuthRepositoryImpl(locator<AuthDataSourceImpl>()),
+  );
 
-  locator.registerLazySingleton(() => GetUserUseCase(authRepository: locator<AuthRepositoryImpl>()));
+  locator.registerLazySingleton(
+    () => GetUserUseCase(authRepository: locator<AuthRepositoryImpl>()),
+  );
 
   locator.registerLazySingleton(() => RequiredValidator());
   locator.registerLazySingleton(() => EmailValidator());
@@ -82,21 +90,29 @@ Future<void> setUpLocator() async {
     ),
   );
 
-
   locator.registerLazySingleton(
-    () => LoginUseCase(loginValidatorUseCase: locator(), authRepository: locator<AuthRepositoryImpl>()),
+    () => LoginUseCase(
+      loginValidatorUseCase: locator(),
+      authRepository: locator<AuthRepositoryImpl>(),
+    ),
   );
   locator.registerLazySingleton(
-    () => RegisterUseCase(registerValidatorUseCase: locator(), authRepository: locator<AuthRepositoryImpl>()),
+    () => RegisterUseCase(
+      registerValidatorUseCase: locator(),
+      authRepository: locator<AuthRepositoryImpl>(),
+    ),
   );
 
   locator.registerLazySingleton(
-        () => AppBloc(initAppStore: locator(), sessionManager: locator(), getUserUseCase: locator()),
+    () => AppBloc(
+      initAppStore: locator(),
+      sessionManager: locator(),
+      getUserUseCase: locator(),
+    ),
   );
 
-
   locator.registerLazySingleton(
-        () => AuthBloc(
+    () => AuthBloc(
       sessionManager: locator(),
       loginUseCase: locator(),
       registerUseCase: locator(),
@@ -107,8 +123,12 @@ Future<void> setUpLocator() async {
 
   ///********************************* Tasks ******************************************
 
-  locator.registerLazySingleton(() => TasksDataSourceImpl(locator<AppDatabase>().taskDao));
-  locator.registerLazySingleton(() => TasksRepositoryImpl(tasksDataSource: locator()));
+  locator.registerLazySingleton(
+    () => TasksDataSourceImpl(locator<AppDatabase>().taskDao),
+  );
+  locator.registerLazySingleton(
+    () => TasksRepositoryImpl(tasksDataSource: locator<TasksDataSourceImpl>()),
+  );
 
   locator.registerLazySingleton(
     () => TaskValidationUseCase(
@@ -117,22 +137,55 @@ Future<void> setUpLocator() async {
       dateValidator: locator(),
     ),
   );
-  locator.registerLazySingleton(
-    () => CreateTaskUseCase(tasksRepository: locator(), taskValidationUseCase: locator()),
-  );
-  locator.registerLazySingleton(
-    () => UpdateTaskUseCase(tasksRepository: locator(), taskValidationUseCase: locator()),
-  );
-  locator.registerLazySingleton(() => GetUserTaskUseCase(tasksRepository: locator()));
-  locator.registerLazySingleton(() => GetSingleTaskUseCase(tasksRepository: locator()));
-  locator.registerLazySingleton(() => WatchTasksUseCase(tasksRepository: locator()));
-  locator.registerLazySingleton(() => DeleteTaskUseCase(tasksRepository: locator()));
 
   locator.registerLazySingleton(
-    () => ShowAllBloc(watchTasksUseCase: locator(), getUserTaskUseCase: locator()),
+    () => UpdateTaskValidationUseCase(
+      requiredValidator: locator(),
+      minimumValidator: locator(),
+      dateValidator: locator(),
+    ),
+  );
+  locator.registerLazySingleton(
+    () => CreateTaskUseCase(
+      tasksRepository: locator<TasksRepositoryImpl>(),
+      taskValidationUseCase: locator(),
+    ),
+  );
+  locator.registerLazySingleton(
+    () => UpdateTaskUseCase(
+      tasksRepository: locator<TasksRepositoryImpl>(),
+      updateTaskValidationUseCase: locator(),
+    ),
+  );
+  locator.registerLazySingleton(
+    () => GetUserTaskUseCase(tasksRepository: locator<TasksRepositoryImpl>()),
+  );
+  locator.registerLazySingleton(
+    () => GetSingleTaskUseCase(tasksRepository: locator<TasksRepositoryImpl>()),
+  );
+  locator.registerLazySingleton(
+    () => WatchTasksUseCase(tasksRepository: locator<TasksRepositoryImpl>()),
+  );
+  locator.registerLazySingleton(
+    () => WatchTasksWithUsersUseCase(
+      tasksRepository: locator<TasksRepositoryImpl>(),
+    ),
+  );
+  locator.registerLazySingleton(
+    () => DeleteTaskUseCase(tasksRepository: locator<TasksRepositoryImpl>()),
+  );
+
+  locator.registerLazySingleton(
+    () => ShowAllBloc(
+      watchTasksUseCase: locator(),
+      getUserTaskUseCase: locator(),
+    ),
   );
   locator.registerFactory(
-    () => CreateTaskCubit(validationUseCase: locator(), createTaskUseCase: locator()),
+    () => CreateTaskCubit(
+      validationUseCase: locator(),
+      createTaskUseCase: locator(),
+    ),
   );
   locator.registerFactory(
     () => UpdateTaskCubit(
@@ -144,8 +197,14 @@ Future<void> setUpLocator() async {
   locator.registerFactory(() => ShowTaskCubit(getSingleTaskUseCase: locator()));
   locator.registerFactory(() => DeleteTaskCubit(deleteTaskUseCase: locator()));
 
-  locator<BlocHub>().registerByName(locator<AppBloc>(), BlocMembersNames.appBloc);
-  locator<BlocHub>().registerByName(locator<AuthBloc>(), BlocMembersNames.authBLoc);
+  locator<BlocHub>().registerByName(
+    locator<AppBloc>(),
+    BlocMembersNames.appBloc,
+  );
+  locator<BlocHub>().registerByName(
+    locator<AuthBloc>(),
+    BlocMembersNames.authBLoc,
+  );
 }
 
 class BlocMembersNames {

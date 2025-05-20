@@ -48,9 +48,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       Text(
                         'Sign In',
-                        style: TextTheme.of(
-                          context,
-                        ).headlineSmall?.copyWith(color: Theme.of(context).colorScheme.onSurface),
+                        style: TextTheme.of(context).headlineSmall?.copyWith(
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
                       ),
                       Text(
                         'Hi! Welcome back, you’ve been missed',
@@ -65,7 +65,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           bloc: authBloc,
                           buildWhen:
                               (previous, current) =>
-                                  previous.loginState.valid != current.loginState.valid,
+                                  previous.loginState.valid !=
+                                  current.loginState.valid,
                           builder: (context, state) {
                             return Column(
                               spacing: 20,
@@ -79,12 +80,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                     authBloc.setLoginData(email: text.trim());
                                   },
                                   validator: (value) {
-                                    return BaseValidator.validateValue(
-                                      value,
-                                      [locator<RequiredValidator>(), locator<EmailValidator>()],
-                                      state.loginState.valid != null
-                                          ,
-                                    );
+                                    return BaseValidator.validateValue(value, [
+                                      locator<RequiredValidator>(),
+                                      locator<EmailValidator>(),
+                                    ], state.loginState.valid != null);
                                   },
                                 ),
 
@@ -97,7 +96,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                       hint: "Password",
                                       password: true,
                                       onChanged: (text) {
-                                        authBloc.setLoginData(password: text.trim());
+                                        authBloc.setLoginData(
+                                          password: text.trim(),
+                                        );
                                       },
                                       validator: (value) {
                                         return BaseValidator.validateValue(
@@ -110,7 +111,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                         );
                                       },
                                     ),
-                                    UnderLineTextButton(title: 'Forget Password', onPressed: () {}),
+                                    UnderLineTextButton(
+                                      title: 'Forget Password',
+                                      onPressed: () {},
+                                    ),
                                   ],
                                 ),
                                 SizedBox(height: 24),
@@ -126,7 +130,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             bloc: authBloc,
                             listenWhen:
                                 (previous, current) =>
-                                    previous.loginState.status != current.loginState.status,
+                                    previous.loginState.status !=
+                                    current.loginState.status,
 
                             listener: (context, state) {
                               if (state.loginState.status == PageStatus.error) {
@@ -140,7 +145,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 );
 
                                 authBloc.resetLoginErrorState();
-                              } else if (state.loginState.status == PageStatus.success) {
+                              } else if (state.loginState.status ==
+                                  PageStatus.success) {
                                 toastification.show(
                                   context: context,
                                   style: ToastificationStyle.flatColored,
@@ -154,11 +160,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             },
                             buildWhen:
                                 (previous, current) =>
-                                    previous.loginState.status != current.loginState.status,
+                                    previous.loginState.status !=
+                                    current.loginState.status,
 
                             builder: (context, state) {
                               return ExpandedButton(
-                                isLoading: state.loginState.status == PageStatus.loading,
+                                isLoading:
+                                    state.loginState.status ==
+                                    PageStatus.loading,
                                 title: 'Sign In',
                                 onPressed: () {
                                   authBloc.login();
@@ -187,9 +196,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                           context.go(RoutesPath.registerPage);
                                           // Add your desired action here
                                         },
-                                  style: TextTheme.of(context).bodySmall?.copyWith(
-                                    color: Theme.of(context).colorScheme.primary,
-                                    decorationColor: Theme.of(context).colorScheme.primary,
+                                  style: TextTheme.of(
+                                    context,
+                                  ).bodySmall?.copyWith(
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                    decorationColor:
+                                        Theme.of(context).colorScheme.primary,
                                     fontWeight: FontWeight.w600,
                                     decoration: TextDecoration.underline,
                                   ),

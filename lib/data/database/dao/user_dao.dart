@@ -20,10 +20,12 @@ class UserDao extends DatabaseAccessor<AppDatabase> with _$UserDaoMixin {
 
   Future updateUser(UsersCompanion user) => update(users).replace(user);
 
-  Future deleteUser(int id) => (delete(users)..where((u) => u.id.equals(id))).go();
+  Future deleteUser(int id) =>
+      (delete(users)..where((u) => u.id.equals(id))).go();
 
   Future<User?> login(String email, String password) async {
-    return (select(users)
-      ..where((u) => u.email.equals(email) & u.password.equals(password))).getSingleOrNull();
+    return (select(users)..where(
+      (u) => u.email.equals(email) & u.password.equals(password),
+    )).getSingleOrNull();
   }
 }

@@ -62,7 +62,8 @@ class _CustomHeaderState extends State<CustomHeader> {
                         ? widget.height! + height + ScreenUtil().statusBarHeight
                         : AppBar().preferredSize.height +
                             height +
-                            padding - 20 +
+                            padding -
+                            20 +
                             widget.additionalHeight,
                 start: widget.start,
                 end: widget.end,
@@ -72,7 +73,8 @@ class _CustomHeaderState extends State<CustomHeader> {
             SafeArea(
               child: Padding(
                 padding:
-                    widget.padding ?? EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 30.sp),
+                    widget.padding ??
+                    EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 30.sp),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -88,11 +90,13 @@ class _CustomHeaderState extends State<CustomHeader> {
                             children: [
                               Text(
                                 'Task Manager',
-                                style: TextTheme.of(context).titleLarge?.copyWith(
-                                  color: Theme.of(context).colorScheme.onPrimary,
+                                style: TextTheme.of(
+                                  context,
+                                ).titleLarge?.copyWith(
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary,
                                 ),
                               ),
-
                             ],
                           ),
                         ),
@@ -165,8 +169,7 @@ class MeasureSizeRenderObject extends RenderProxyBox {
 class MeasureSize extends SingleChildRenderObjectWidget {
   final OnWidgetSizeChange onChange;
 
-  const MeasureSize({Key? key, required this.onChange, required Widget child})
-    : super(key: key, child: child);
+  const MeasureSize({super.key, required this.onChange, required Widget super.child});
 
   @override
   RenderObject createRenderObject(BuildContext context) {
@@ -174,7 +177,10 @@ class MeasureSize extends SingleChildRenderObjectWidget {
   }
 
   @override
-  void updateRenderObject(BuildContext context, covariant MeasureSizeRenderObject renderObject) {
+  void updateRenderObject(
+    BuildContext context,
+    covariant MeasureSizeRenderObject renderObject,
+  ) {
     renderObject.onChange = onChange;
   }
 }

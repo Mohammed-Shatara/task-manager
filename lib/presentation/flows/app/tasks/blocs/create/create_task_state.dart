@@ -8,7 +8,6 @@ class CreateTaskState extends Equatable {
     this.error = '',
     this.name = '',
     this.description,
-    this.userId,
     this.taskStatus = TaskStatus.pending,
     this.dueDate,
     this.valid,
@@ -18,7 +17,6 @@ class CreateTaskState extends Equatable {
   final String name;
   final String? description;
   final TaskStatus taskStatus;
-  final int? userId;
   final DateTime? dueDate;
   final String error;
   final bool? valid;
@@ -28,7 +26,6 @@ class CreateTaskState extends Equatable {
     String? error,
     String? name,
     String? description,
-    int? userId,
     TaskStatus? taskStatus,
     DateTime? dueDate,
     bool? valid,
@@ -37,7 +34,6 @@ class CreateTaskState extends Equatable {
       pageStatus: pageStatus ?? this.pageStatus,
       error: error ?? this.error,
       name: name ?? this.name,
-      userId: userId ?? this.userId,
       description: description ?? this.description,
       taskStatus: taskStatus ?? this.taskStatus,
       dueDate: dueDate ?? this.dueDate,
@@ -46,14 +42,57 @@ class CreateTaskState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [pageStatus, error, valid, name, description, taskStatus, dueDate,userId];
+  List<Object?> get props => [
+    pageStatus,
+    error,
+    valid,
+    name,
+    description,
+    taskStatus,
+    dueDate,
+  ];
 }
 
 extension TaskStatusExtension on TaskStatus {
   static TaskStatus fromName(String name) {
     return TaskStatus.values.firstWhere(
-          (e) => e.name == name,
+      (e) => e.name == name,
       orElse: () => TaskStatus.pending, // fallback if no match
     );
+  }
+
+  String get label {
+    switch (this) {
+      case TaskStatus.pending:
+        return 'Pending';
+      case TaskStatus.done:
+        return 'Done';
+      case TaskStatus.blocked:
+        return 'Blocked';
+    }
+  }
+
+  Color color(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    switch (this) {
+      case TaskStatus.done:
+        return scheme.secondary;
+      case TaskStatus.pending:
+        return scheme.tertiary;
+      case TaskStatus.blocked:
+        return scheme.error;
+    }
+  }
+
+  Color bgColor(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    switch (this) {
+      case TaskStatus.done:
+        return scheme.secondaryContainer.withValues(alpha: 0.5);
+      case TaskStatus.pending:
+        return scheme.tertiaryContainer.withValues(alpha: 0.5);
+      case TaskStatus.blocked:
+        return scheme.errorContainer.withValues(alpha: 0.5);
+    }
   }
 }

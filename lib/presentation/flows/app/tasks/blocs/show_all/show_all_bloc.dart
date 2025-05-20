@@ -11,16 +11,17 @@ part 'show_all_event.dart';
 part 'show_all_state.dart';
 
 class ShowAllBloc extends Bloc<ShowAllEvent, ShowAllState> {
-  final WatchTasksUseCase watchTasksUseCase;
+  final WatchTasksWithUsersUseCase watchTasksUseCase;
   final GetUserTaskUseCase getUserTaskUseCase;
 
-  ShowAllBloc({required this.watchTasksUseCase, required this.getUserTaskUseCase})
-    : super(ShowAllState()) {
+  ShowAllBloc({
+    required this.watchTasksUseCase,
+    required this.getUserTaskUseCase,
+  }) : super(ShowAllState()) {
     on<SwitchListEvent>(_onSwitchDisplayedTasks);
     on<WatchTasksEvent>(_onWatchTasks);
     on<GetUserTaskEvent>(_onGetUserTasks);
     on<SetTasksListEvent>(_onSetTasksList);
-    on<SwitchListEvent>(_onSwitchDisplayedTasks);
   }
 }
 
@@ -30,22 +31,36 @@ extension ShowAllBlocMappers on ShowAllBloc {
     watchTasksUseCase(NoParams()).listen((tasks) {
       setTasksList(tasks: tasks);
     });
-    emit(state.copyWith(status: PageStatus.success));
+    emit(
+      state.copyWith(
+        status: PageStatus.success,
+        displayedStatus: PageStatus.success,
+      ),
+    );
   }
 
-  void _onGetUserTasks(GetUserTaskEvent event, Emitter<ShowAllState> emit) async {
+  void _onGetUserTasks(
+    GetUserTaskEvent event,
+    Emitter<ShowAllState> emit,
+  ) async {
     emit(state.copyWith(userTasksStatus: PageStatus.loading));
     final result = await getUserTaskUseCase(event.userId);
     if (result.hasDataOnly) {
       emit(
         state.copyWith(
-          status: PageStatus.success,
+          userTasksStatus: PageStatus.success,
           userTasksList: result.data,
-          displayedList: checkCurrentlyDisplayedTasks(state.type),
+          displayedList:
+              state.type == TasksType.all ? state.allTasksList : result.data,
         ),
       );
     } else {
-      emit(state.copyWith(userTasksStatus: PageStatus.error, error: result.error.toString()));
+      emit(
+        state.copyWith(
+          userTasksStatus: PageStatus.error,
+          error: result.error.toString(),
+        ),
+      );
     }
   }
 
@@ -53,21 +68,43 @@ extension ShowAllBlocMappers on ShowAllBloc {
     emit(
       state.copyWith(
         allTasksList: event.tasks,
-        displayedList: checkCurrentlyDisplayedTasks(state.type),
+        displayedList:
+            state.type == TasksType.all ? event.tasks : state.userTasksList,
       ),
     );
   }
 
-  void _onSwitchDisplayedTasks(SwitchListEvent event, Emitter<ShowAllState> emit) {
+  void _onSwitchDisplayedTasks(
+    SwitchListEvent event,
+    Emitter<ShowAllState> emit,
+  ) {
     final type = state.type.toggle();
-
-    emit(state.copyWith(type: type, displayedList: checkCurrentlyDisplayedTasks(type)));
+    emit(
+      state.copyWith(
+        type: type,
+        displayedList: checkCurrentlyDisplayedTasks(type),
+        displayedStatus:
+            state.type == TasksType.all ? state.status : state.userTasksStatus,
+      ),
+    );
   }
 }
 
 extension ShowAllBlocActions on ShowAllBloc {
   void setTasksList({required List<TaskModel> tasks}) {
     add(SetTasksListEvent(tasks: tasks));
+  }
+
+  void watchTasks() {
+    add(WatchTasksEvent());
+  }
+
+  void getUserTasks(int id) {
+    add(GetUserTaskEvent(userId: id));
+  }
+
+  void switchListType() {
+    add(SwitchListEvent());
   }
 }
 

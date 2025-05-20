@@ -7,22 +7,28 @@ import '../../../data/requests/task_requests.dart';
 import '../../repositories/tasks_repository.dart';
 import 'create_task_use_case.dart';
 
-class UpdateTaskUseCase extends UseCase<Future<Result<BaseError, bool>>, TaskParams> {
+class UpdateTaskUseCase
+    extends UseCase<Future<Result<BaseError, bool>>, UpdateTaskParams> {
   final TasksRepository tasksRepository;
-  final TaskValidationUseCase taskValidationUseCase;
+  final UpdateTaskValidationUseCase updateTaskValidationUseCase;
 
-  UpdateTaskUseCase({required this.tasksRepository, required this.taskValidationUseCase});
+  UpdateTaskUseCase({
+    required this.tasksRepository,
+    required this.updateTaskValidationUseCase,
+  });
 
   @override
-  Future<Result<BaseError, bool>> call(TaskParams params) async {
-    final validationResult = taskValidationUseCase(params);
+  Future<Result<BaseError, bool>> call(UpdateTaskParams params) async {
+    final validationResult = updateTaskValidationUseCase(params);
     if (validationResult.hasErrorOnly) {
       return Result(error: validationResult.error!);
     }
     return tasksRepository.updateTask(
-      TaskRequest(
+      UpdateTaskRequest(
+        id: params.id,
         userId: params.userId,
         name: params.name,
+        description: params.description,
         status: params.status,
         dueDate: params.dueDate,
       ),

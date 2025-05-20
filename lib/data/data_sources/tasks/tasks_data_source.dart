@@ -10,8 +10,9 @@ abstract class TasksDataSource {
   Future<Either<BaseError, List<TaskModel>>> getTasksByUserId(int userId);
   Future<Either<BaseError, List<TaskModel>>> getAllTasks();
   Stream<List<TaskModel>> watchTasks();
+  Stream<List<TaskWithUserModel>> watchTasksWithUsers();
   Future<Either<BaseError, TaskModel>> getTaskById(int id);
 
-  Future<Either<BaseError, bool>> updateTask(TaskRequest task);
+  Future<Either<BaseError, bool>> updateTask(UpdateTaskRequest task);
   Future<Either<BaseError, bool>> deleteTask(int id);
 }

@@ -25,7 +25,10 @@ class ExpandedButton extends StatelessWidget {
                 ? SizedBox(
                   height: 24,
                   width: 24,
-                  child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2.5),
+                  child: CircularProgressIndicator(
+                    color: Colors.white,
+                    strokeWidth: 2.5,
+                  ),
                 )
                 : AutoSizeText(title, maxLines: 1),
       ),

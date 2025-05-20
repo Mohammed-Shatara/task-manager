@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:task_manager/data/models/user_model.dart';
 
 import '../database/app_database.dart';
 import '../database/tables/task_table.dart';
@@ -8,6 +9,7 @@ class TaskModel {
   final int userId;
   final String name;
   final String? description;
+  final String? userFullName;
   final String status;
   final DateTime dueDate;
 
@@ -16,6 +18,7 @@ class TaskModel {
     required this.userId,
     required this.name,
     this.description,
+    this.userFullName,
     required this.status,
     required this.dueDate,
   });
@@ -37,6 +40,31 @@ class TaskModel {
     status: status,
     dueDate: dueDate,
   );
+
+  TaskModel copyWith({
+    int? id,
+    int? userId,
+    String? name,
+    String? description,
+    String? userFullName,
+    String? status,
+    DateTime? dueDate,
+  }) {
+    return TaskModel(
+      id: id ?? this.id,
+      userId: userId ?? this.userId,
+      status: status ?? this.status,
+      dueDate: dueDate ?? this.dueDate,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      userFullName: userFullName ?? this.userFullName,
+    );
+  }
+
+  @override
+  String toString() {
+    return '$id, $name, $description';
+  }
 
   Map<String, dynamic> toJson() => {
     'id': id,
@@ -63,4 +91,17 @@ class TaskModel {
     status: Value(status),
     dueDate: Value(dueDate),
   );
+}
+
+class TaskWithUserModel {
+  final TaskModel task;
+  final UserModel user;
+
+  TaskWithUserModel({required this.task, required this.user});
+
+  factory TaskWithUserModel.fromTable(TaskWithUser taskWithUser) =>
+      TaskWithUserModel(
+        task: TaskModel.fromTable(taskWithUser.task),
+        user: UserModel.fromTable(taskWithUser.user),
+      );
 }

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
 class UnderLineTextButton extends StatelessWidget {
-  const UnderLineTextButton({super.key, required this.title, required this.onPressed});
+  const UnderLineTextButton({
+    super.key,
+    required this.title,
+    required this.onPressed,
+  });
 
   final String title;
   final VoidCallback onPressed;

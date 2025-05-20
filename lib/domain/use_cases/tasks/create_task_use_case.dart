@@ -7,11 +7,15 @@ import '../../../core/param/base_param.dart';
 import '../../../core/result/result.dart';
 import '../../../core/usecases/base_use_case.dart';
 
-class CreateTaskUseCase extends UseCase<Future<Result<BaseError, int>>, TaskParams> {
+class CreateTaskUseCase
+    extends UseCase<Future<Result<BaseError, int>>, TaskParams> {
   final TasksRepository tasksRepository;
   final TaskValidationUseCase taskValidationUseCase;
 
-  CreateTaskUseCase({required this.tasksRepository, required this.taskValidationUseCase});
+  CreateTaskUseCase({
+    required this.tasksRepository,
+    required this.taskValidationUseCase,
+  });
 
   @override
   Future<Result<BaseError, int>> call(TaskParams params) async {
@@ -23,6 +27,7 @@ class CreateTaskUseCase extends UseCase<Future<Result<BaseError, int>>, TaskPara
       TaskRequest(
         userId: params.userId,
         name: params.name,
+        description: params.description,
         status: params.status,
         dueDate: params.dueDate,
       ),
@@ -38,6 +43,24 @@ class TaskParams extends BaseParams {
   final int userId;
 
   TaskParams({
+    required this.name,
+    this.description,
+    required this.userId,
+    required this.status,
+    required this.dueDate,
+  });
+}
+
+class UpdateTaskParams extends BaseParams {
+  final int id;
+  final String name;
+  final String? description;
+  final String status;
+  final DateTime dueDate;
+  final int userId;
+
+  UpdateTaskParams({
+    required this.id,
     required this.name,
     this.description,
     required this.userId,

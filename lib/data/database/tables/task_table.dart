@@ -46,3 +46,10 @@ class Task {
     'dueDate': dueDate.toIso8601String(),
   };
 }
+
+class TaskWithUser {
+  final Task task;
+  final User user;
+
+  TaskWithUser({required this.task, required this.user});
+}
