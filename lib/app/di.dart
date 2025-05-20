@@ -50,24 +50,14 @@ Future<void> setUpLocator() async {
   locator.registerLazySingleton(() => InitAppStore());
   locator.registerFactory<AppThemeColors>(() => ThemeFactory.colorModeFactory(AppThemeMode.light));
 
-  locator.registerLazySingleton(
-    () => AppBloc(initAppStore: locator(), sessionManager: locator(), getUserUseCase: locator()),
-  );
 
-  locator.registerLazySingleton(
-    () => AuthBloc(
-      sessionManager: locator(),
-      loginUseCase: locator(),
-      registerUseCase: locator(),
-      loginValidatorUseCase: locator(),
-      registerValidatorUseCase: locator(),
-    ),
-  );
 
   ///********************************* Auth ******************************************
   locator.registerLazySingleton(() => AuthDataSourceImpl(locator<AppDatabase>().userDao));
 
-  locator.registerLazySingleton(() => AuthRepositoryImpl(locator<AuthDataSourceImpl>()));
+  locator.registerLazySingleton<AuthRepositoryImpl>(() => AuthRepositoryImpl(locator<AuthDataSourceImpl>()));
+
+  locator.registerLazySingleton(() => GetUserUseCase(authRepository: locator<AuthRepositoryImpl>()));
 
   locator.registerLazySingleton(() => RequiredValidator());
   locator.registerLazySingleton(() => EmailValidator());
@@ -92,13 +82,27 @@ Future<void> setUpLocator() async {
     ),
   );
 
-  locator.registerLazySingleton(() => GetUserUseCase(authRepository: locator()));
 
   locator.registerLazySingleton(
-    () => LoginUseCase(loginValidatorUseCase: locator(), authRepository: locator()),
+    () => LoginUseCase(loginValidatorUseCase: locator(), authRepository: locator<AuthRepositoryImpl>()),
   );
   locator.registerLazySingleton(
-    () => RegisterUseCase(registerValidatorUseCase: locator(), authRepository: locator()),
+    () => RegisterUseCase(registerValidatorUseCase: locator(), authRepository: locator<AuthRepositoryImpl>()),
+  );
+
+  locator.registerLazySingleton(
+        () => AppBloc(initAppStore: locator(), sessionManager: locator(), getUserUseCase: locator()),
+  );
+
+
+  locator.registerLazySingleton(
+        () => AuthBloc(
+      sessionManager: locator(),
+      loginUseCase: locator(),
+      registerUseCase: locator(),
+      loginValidatorUseCase: locator(),
+      registerValidatorUseCase: locator(),
+    ),
   );
 
   ///********************************* Tasks ******************************************
