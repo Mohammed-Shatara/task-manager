@@ -60,7 +60,17 @@ class TasksDataSourceImpl extends TasksDataSource {
   }
 
   @override
-  Future<Either<BaseError, bool>> updateTask(TaskRequest task) async {
+  Stream<List<TaskWithUserModel>> watchTasksWithUsers() {
+    return taskDao.watchTasksWithUsers().map(
+      (tasksWithUsersRow) =>
+          tasksWithUsersRow
+              .map((taskWithUser) => TaskWithUserModel.fromTable(taskWithUser))
+              .toList(),
+    );
+  }
+
+  @override
+  Future<Either<BaseError, bool>> updateTask(UpdateTaskRequest task) async {
     try {
       await taskDao.updateTask(task.toCompanion());
       return right(true);

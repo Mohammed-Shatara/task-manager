@@ -26,6 +26,7 @@ class SvgKeys {
 
   static String get activeProfile => "lib/assets/icons/navbar/profile-2.svg";
   static String get profile => "lib/assets/icons/navbar/profile.svg";
+  static String get empty => "lib/assets/icons/navbar/empty.svg";
 }
 
 class AppTheme {

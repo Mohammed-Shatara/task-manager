@@ -27,10 +27,16 @@ class AppBloc extends Bloc<AppEvent, AppState> with BlocMember {
   final SessionManager sessionManager;
   final GetUserUseCase getUserUseCase;
 
-  AppBloc({required this.initAppStore, required this.sessionManager, required this.getUserUseCase})
-    : super(const AppState()) {
+  UserModel? get user => state.me;
+
+  AppBloc({
+    required this.initAppStore,
+    required this.sessionManager,
+    required this.getUserUseCase,
+  }) : super(const AppState()) {
     on<LaunchAppEvent>(_onLaunchApp);
     on<SetAppStatusEvent>(_onSetAppStatus);
+    on<LogoutEvent>(_onLogout);
   }
 
   @override
@@ -62,23 +68,44 @@ extension AppBlocMappers on AppBloc {
       final userId = int.tryParse(await sessionManager.authToken);
       if (userId != null) {
         final result = await getUserUseCase(userId);
+        print('userIduserId: $userId ${result.hasDataOnly}');
         if (result.hasDataOnly) {
           emit(state.copyWith(me: result.data));
         }
       }
     }
 
-    emit(state.copyWith(isLaunched: true, isFirstTime: isFirstTime, appStatus: appStatus));
+    emit(
+      state.copyWith(
+        isLaunched: true,
+        isFirstTime: isFirstTime,
+        appStatus: appStatus,
+      ),
+    );
     return;
   }
 
   void _onSetAppStatus(SetAppStatusEvent event, Emitter<AppState> emit) {
-    emit(state.copyWith(appStatus: event.appStatus.data, me: event.appStatus.userModel));
+    emit(
+      state.copyWith(
+        appStatus: event.appStatus.data,
+        me: event.appStatus.userModel,
+      ),
+    );
+  }
+
+  void _onLogout(LogoutEvent event, Emitter<AppState> emit) async {
+    await sessionManager.deleteToken();
+    emit(state.copyWith(appStatus: Status.unauthorized));
   }
 }
 
 extension AppBlocActions on AppBloc {
   void setAppStatus(AppStatus status) {
     add(SetAppStatusEvent(status));
+  }
+
+  void logout() {
+    add(LogoutEvent());
   }
 }

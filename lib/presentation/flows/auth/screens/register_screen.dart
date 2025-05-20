@@ -30,7 +30,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return PopScope(
       onPopInvokedWithResult: (didPop, result) {
-        if(didPop) {
+        if (didPop) {
           authBloc.resetRegisterState();
         }
       },
@@ -53,14 +53,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       children: [
                         Text(
                           'Create Account',
-                          style: TextTheme.of(
-                            context,
-                          ).headlineSmall?.copyWith(color: Theme.of(context).colorScheme.onSurface),
+                          style: TextTheme.of(context).headlineSmall?.copyWith(
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
                         ),
                         Text(
                           'Fill your information below.',
                           style: TextTheme.of(context).bodyLarge?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurfaceVariant,
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant,
                           ),
                         ),
 
@@ -70,7 +71,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             bloc: authBloc,
                             buildWhen:
                                 (previous, current) =>
-                                    previous.registerState.valid != current.registerState.valid,
+                                    previous.registerState.valid !=
+                                    current.registerState.valid,
                             builder: (context, state) {
                               return Column(
                                 spacing: 20,
@@ -81,13 +83,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     hint: "John Doe",
                                     keyboardType: TextInputType.name,
                                     onChanged: (text) {
-                                      authBloc.setRegisterData(fullName: text.trim());
+                                      authBloc.setRegisterData(
+                                        fullName: text.trim(),
+                                      );
                                     },
                                     validator: (value) {
-                                      return BaseValidator.validateValue(value, [
-                                        locator<RequiredValidator>(),
-                                        locator<MinimumValidator>(),
-                                      ], state.registerState.valid != null);
+                                      return BaseValidator.validateValue(
+                                        value,
+                                        [
+                                          locator<RequiredValidator>(),
+                                          locator<MinimumValidator>(),
+                                        ],
+                                        state.registerState.valid != null,
+                                      );
                                     },
                                   ),
 
@@ -96,13 +104,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     hint: "example@gmail.com",
                                     keyboardType: TextInputType.emailAddress,
                                     onChanged: (text) {
-                                      authBloc.setRegisterData(email: text.trim());
+                                      authBloc.setRegisterData(
+                                        email: text.trim(),
+                                      );
                                     },
                                     validator: (value) {
-                                      return BaseValidator.validateValue(value, [
-                                        locator<RequiredValidator>(),
-                                        locator<EmailValidator>(),
-                                      ], state.registerState.valid != null);
+                                      return BaseValidator.validateValue(
+                                        value,
+                                        [
+                                          locator<RequiredValidator>(),
+                                          locator<EmailValidator>(),
+                                        ],
+                                        state.registerState.valid != null,
+                                      );
                                     },
                                   ),
 
@@ -115,13 +129,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         hint: "Password",
                                         password: true,
                                         onChanged: (text) {
-                                          authBloc.setRegisterData(password: text.trim());
+                                          authBloc.setRegisterData(
+                                            password: text.trim(),
+                                          );
                                         },
                                         validator: (value) {
-                                          return BaseValidator.validateValue(value, [
-                                            locator<RequiredValidator>(),
-                                            locator<PasswordValidator>(),
-                                          ], state.registerState.valid != null);
+                                          return BaseValidator.validateValue(
+                                            value,
+                                            [
+                                              locator<RequiredValidator>(),
+                                              locator<PasswordValidator>(),
+                                            ],
+                                            state.registerState.valid != null,
+                                          );
                                         },
                                       ),
                                     ],
@@ -139,28 +159,35 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               bloc: authBloc,
                               listenWhen:
                                   (previous, current) =>
-                                      previous.registerState.status != current.registerState.status,
+                                      previous.registerState.status !=
+                                      current.registerState.status,
 
                               listener: (context, state) {
-                                if (state.registerState.status == PageStatus.error) {
+                                if (state.registerState.status ==
+                                    PageStatus.error) {
                                   toastification.show(
                                     context: context,
                                     style: ToastificationStyle.flatColored,
                                     alignment: Alignment.bottomCenter,
                                     type: ToastificationType.error,
                                     title: Text(state.registerState.error),
-                                    autoCloseDuration: const Duration(seconds: 2),
+                                    autoCloseDuration: const Duration(
+                                      seconds: 2,
+                                    ),
                                   );
 
                                   authBloc.resetRegisterErrorState();
-                                } else if (state.registerState.status == PageStatus.success) {
+                                } else if (state.registerState.status ==
+                                    PageStatus.success) {
                                   toastification.show(
                                     context: context,
                                     style: ToastificationStyle.flatColored,
                                     alignment: Alignment.bottomCenter,
                                     type: ToastificationType.success,
                                     title: Text('Welcome'),
-                                    autoCloseDuration: const Duration(seconds: 2),
+                                    autoCloseDuration: const Duration(
+                                      seconds: 2,
+                                    ),
                                   );
                                   authBloc.resetRegisterState();
                                 }
@@ -168,10 +195,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                               buildWhen:
                                   (previous, current) =>
-                                      previous.registerState.status != current.registerState.status,
+                                      previous.registerState.status !=
+                                      current.registerState.status,
                               builder: (context, state) {
                                 return ExpandedButton(
-                                  isLoading: state.registerState.status == PageStatus.loading,
+                                  isLoading:
+                                      state.registerState.status ==
+                                      PageStatus.loading,
                                   title: 'Sign Up',
                                   onPressed: () {
                                     authBloc.register();
@@ -200,9 +230,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                             context.go(RoutesPath.loginPage);
                                             // Add your desired action here
                                           },
-                                    style: TextTheme.of(context).bodySmall?.copyWith(
-                                      color: Theme.of(context).colorScheme.primary,
-                                      decorationColor: Theme.of(context).colorScheme.primary,
+                                    style: TextTheme.of(
+                                      context,
+                                    ).bodySmall?.copyWith(
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                      decorationColor:
+                                          Theme.of(context).colorScheme.primary,
                                       fontWeight: FontWeight.w600,
                                       decoration: TextDecoration.underline,
                                     ),

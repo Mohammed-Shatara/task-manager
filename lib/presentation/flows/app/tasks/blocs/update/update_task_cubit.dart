@@ -17,7 +17,7 @@ class UpdateTaskCubit extends Cubit<UpdateTaskState> {
     required this.getSingleTaskUseCase,
   }) : super(UpdateTaskState());
 
-  final TaskValidationUseCase validationUseCase;
+  final UpdateTaskValidationUseCase validationUseCase;
   final UpdateTaskUseCase updateTaskUseCase;
   final GetSingleTaskUseCase getSingleTaskUseCase;
 
@@ -27,6 +27,7 @@ class UpdateTaskCubit extends Cubit<UpdateTaskState> {
     if (result.hasDataOnly) {
       final task = result.data!;
       setTaskData(
+        id: task.id,
         name: task.name,
         description: task.description,
         userId: task.userId,
@@ -35,12 +36,17 @@ class UpdateTaskCubit extends Cubit<UpdateTaskState> {
       );
       emit(state.copyWith(getTaskStatus: PageStatus.success));
     } else {
-      emit(state.copyWith(getTaskStatus: PageStatus.error,error: result.error.toString()));
-
+      emit(
+        state.copyWith(
+          getTaskStatus: PageStatus.error,
+          error: result.error.toString(),
+        ),
+      );
     }
   }
 
   void setTaskData({
+    int? id,
     String? name,
     String? description,
     int? userId,
@@ -49,6 +55,7 @@ class UpdateTaskCubit extends Cubit<UpdateTaskState> {
   }) {
     emit(
       state.copyWith(
+        id: id,
         name: name,
         description: description,
         taskStatus: taskStatus,
@@ -58,11 +65,13 @@ class UpdateTaskCubit extends Cubit<UpdateTaskState> {
     );
   }
 
-  Future<void> validateAndCreateTask() async {
-    final taskParams = TaskParams(
-      userId: state.userId ?? 0,
+  Future<void> validateAndUpdateTask(int userId) async {
+    final taskParams = UpdateTaskParams(
+      id: state.id!,
+      userId: userId,
       name: state.name,
       status: state.taskStatus.name,
+      description: state.description,
       dueDate: state.dueDate ?? DateTime.now(),
     );
     final result = validationUseCase(taskParams);
@@ -82,10 +91,19 @@ class UpdateTaskCubit extends Cubit<UpdateTaskState> {
     final updateResult = await updateTaskUseCase(taskParams);
 
     if (updateResult.hasErrorOnly) {
-      emit(state.copyWith(updateStatus: PageStatus.error, error: updateResult.error.toString()));
+      emit(
+        state.copyWith(
+          updateStatus: PageStatus.error,
+          error: updateResult.error.toString(),
+        ),
+      );
       return;
     }
 
     emit(state.copyWith(updateStatus: PageStatus.success));
+  }
+
+  void resetErrorState() {
+    emit(state.copyWith(error: '', updateStatus: PageStatus.init));
   }
 }

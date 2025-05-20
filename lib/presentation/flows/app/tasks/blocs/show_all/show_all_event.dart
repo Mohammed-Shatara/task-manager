@@ -16,6 +16,4 @@ class GetUserTaskEvent extends ShowAllEvent {
   GetUserTaskEvent({required this.userId});
 }
 
-class SwitchListEvent extends ShowAllEvent {
-
-}
+class SwitchListEvent extends ShowAllEvent {}

@@ -24,7 +24,7 @@ class HeaderPainter extends CustomPainter {
       stops: const [0.5, 1],
       colors: [
         start ?? const Color(0xff2C4D75), //LightModeColors().primary40,
-        end ?? const Color(0xff157D9E) //,LightModeColors().secondary40,
+        end ?? const Color(0xff157D9E), //,LightModeColors().secondary40,
       ],
     ).createShader(rect);
 
@@ -39,7 +39,11 @@ class HeaderPainter extends CustomPainter {
     path.quadraticBezierTo(5, height - 110, 160, height - 110);
     path.lineTo(size.width - 140, height - 110);
     path.quadraticBezierTo(
-        size.width - 10, height - 110, size.width, height - 195);
+      size.width - 10,
+      height - 110,
+      size.width,
+      height - 195,
+    );
     path.lineTo(size.width, 0);
 
     canvas.drawPath(path, paint);

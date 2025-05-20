@@ -1,7 +1,6 @@
 import 'package:drift/drift.dart';
 
 import '../database/app_database.dart';
-import '../database/tables/user_table.dart';
 
 class UserRequest {
   final String fullname;
@@ -13,7 +12,6 @@ class UserRequest {
     required this.email,
     required this.password,
   });
-
 
   UsersCompanion toCompanion() => UsersCompanion(
     fullname: Value(fullname),

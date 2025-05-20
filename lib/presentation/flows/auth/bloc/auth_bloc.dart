@@ -50,7 +50,10 @@ extension AuthBlocMappers on AuthBloc {
   void _onSetLoginData(SetLoginDataEvent event, Emitter<AuthState> emit) {
     emit(
       state.copyWith(
-        loginState: state.loginState.copyWith(email: event.email, password: event.password),
+        loginState: state.loginState.copyWith(
+          email: event.email,
+          password: event.password,
+        ),
       ),
     );
   }
@@ -75,18 +78,27 @@ extension AuthBlocMappers on AuthBloc {
 
     final validate = loginValidatorUseCase(loginParams);
 
-
     if (validate.hasDataOnly) {
       emit(
         state.copyWith(
-          loginState: state.loginState.copyWith(status: PageStatus.loading, valid: true),
+          loginState: state.loginState.copyWith(
+            status: PageStatus.loading,
+            valid: true,
+          ),
         ),
       );
       final result = await loginUseCase(loginParams);
       if (result.hasDataOnly) {
         sessionManager.persistToken(result.data!.id.toString());
-        emit(state.copyWith(loginState: state.loginState.copyWith(status: PageStatus.success)));
-        sendTo(AppStatus(data: Status.authorized), BlocMembersNames.appBloc);
+        emit(
+          state.copyWith(
+            loginState: state.loginState.copyWith(status: PageStatus.success),
+          ),
+        );
+        sendTo(
+          AppStatus(data: Status.authorized, userModel: result.data),
+          BlocMembersNames.appBloc,
+        );
       } else {
         emit(
           state.copyWith(
@@ -114,7 +126,10 @@ extension AuthBlocMappers on AuthBloc {
     if (validate.hasDataOnly) {
       emit(
         state.copyWith(
-          registerState: state.registerState.copyWith(status: PageStatus.loading, valid: true),
+          registerState: state.registerState.copyWith(
+            status: PageStatus.loading,
+            valid: true,
+          ),
         ),
       );
 
@@ -122,9 +137,16 @@ extension AuthBlocMappers on AuthBloc {
       if (result.hasDataOnly) {
         sessionManager.persistToken(result.data!.id.toString());
         emit(
-          state.copyWith(registerState: state.registerState.copyWith(status: PageStatus.success)),
+          state.copyWith(
+            registerState: state.registerState.copyWith(
+              status: PageStatus.success,
+            ),
+          ),
         );
-        sendTo(AppStatus(data: Status.authorized), BlocMembersNames.appBloc);
+        sendTo(
+          AppStatus(data: Status.authorized, userModel: result.data),
+          BlocMembersNames.appBloc,
+        );
       } else {
         emit(
           state.copyWith(
@@ -136,7 +158,11 @@ extension AuthBlocMappers on AuthBloc {
         );
       }
     } else {
-      emit(state.copyWith(registerState: state.registerState.copyWith(valid: false)));
+      emit(
+        state.copyWith(
+          registerState: state.registerState.copyWith(valid: false),
+        ),
+      );
     }
   }
 
@@ -144,18 +170,37 @@ extension AuthBlocMappers on AuthBloc {
     emit(state.copyWith(loginState: LoginState()));
   }
 
-  void _onResetLoginErrorState(ResetLoginErrorState event, Emitter<AuthState> emit) {
-    emit(state.copyWith(loginState: state.loginState.copyWith(error: '', status: PageStatus.init)));
+  void _onResetLoginErrorState(
+    ResetLoginErrorState event,
+    Emitter<AuthState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        loginState: state.loginState.copyWith(
+          error: '',
+          status: PageStatus.init,
+        ),
+      ),
+    );
   }
 
-  void _onResetRegisterState(ResetRegisterState event, Emitter<AuthState> emit) {
+  void _onResetRegisterState(
+    ResetRegisterState event,
+    Emitter<AuthState> emit,
+  ) {
     emit(state.copyWith(registerState: RegisterState()));
   }
 
-  void _onResetRegisterErrorState(ResetRegisterErrorState event, Emitter<AuthState> emit) {
+  void _onResetRegisterErrorState(
+    ResetRegisterErrorState event,
+    Emitter<AuthState> emit,
+  ) {
     emit(
       state.copyWith(
-        registerState: state.registerState.copyWith(error: '', status: PageStatus.init),
+        registerState: state.registerState.copyWith(
+          error: '',
+          status: PageStatus.init,
+        ),
       ),
     );
   }
@@ -167,7 +212,13 @@ extension AuthBlocActions on AuthBloc {
   }
 
   void setRegisterData({String? fullName, String? email, String? password}) {
-    add(SetRegisterDataEvent(fullName: fullName, email: email, password: password));
+    add(
+      SetRegisterDataEvent(
+        fullName: fullName,
+        email: email,
+        password: password,
+      ),
+    );
   }
 
   void login() {

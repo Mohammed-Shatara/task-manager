@@ -5,7 +5,8 @@ import '../../../core/result/result.dart';
 import '../../../core/usecases/base_use_case.dart';
 import '../../repositories/tasks_repository.dart';
 
-class GetSingleTaskUseCase extends UseCase<Future<Result<BaseError, TaskModel>>, int> {
+class GetSingleTaskUseCase
+    extends UseCase<Future<Result<BaseError, TaskModel>>, int> {
   final TasksRepository tasksRepository;
 
   GetSingleTaskUseCase({required this.tasksRepository});

@@ -22,8 +22,10 @@ class SetRegisterDataEvent extends AuthEvent {
   SetRegisterDataEvent({this.fullName, this.email, this.password});
 }
 
-
 class ResetLoginState extends AuthEvent {}
+
 class ResetLoginErrorState extends AuthEvent {}
+
 class ResetRegisterState extends AuthEvent {}
+
 class ResetRegisterErrorState extends AuthEvent {}

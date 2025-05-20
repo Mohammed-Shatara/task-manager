@@ -12,6 +12,7 @@ class LabeledTextField extends StatefulWidget {
     this.phoneCode,
     this.phone = false,
     this.hint,
+    this.initialValue,
     this.keyboardType,
     this.textDirection,
     this.validator,
@@ -19,6 +20,7 @@ class LabeledTextField extends StatefulWidget {
 
   final String label;
   final String? hint;
+  final String? initialValue;
   final bool password;
   final bool phone;
   final Widget? phoneCode;
@@ -46,12 +48,20 @@ class _LabeledTextFieldState extends State<LabeledTextField> {
       children: [
         Text(
           widget.label,
-          style: TextStyle(fontSize: 13, color: Color(0xff242424), fontFamily: 'Inter'),
+          style: TextStyle(
+            fontSize: 13,
+            color: Color(0xff242424),
+            fontFamily: 'roboto',
+          ),
         ),
         TextFormField(
           maxLines: widget.maxLines,
-
-          style: TextStyle(color: Color(0xff242424), fontSize: 13, fontFamily: 'Inter'),
+          initialValue: widget.initialValue,
+          style: TextStyle(
+            color: Color(0xff242424),
+            fontSize: 13,
+            fontFamily: 'roboto',
+          ),
           cursorHeight: 18,
           keyboardType: widget.keyboardType,
           maxLength: widget.maxLength,
@@ -64,24 +74,28 @@ class _LabeledTextFieldState extends State<LabeledTextField> {
             prefixIcon: widget.phone && !isRtl ? widget.phoneCode : null,
             //suffixStyle: TextStyle(color: Colors.red),
             suffixIcon:
-            widget.password
-                ? IconButton(
-              color: Color(0xff242424),
-              iconSize: 18,
-              onPressed: () {
-                setState(() {
-                  show = !show;
-                });
-              },
-              icon: Icon(show ? Icons.visibility_outlined : Icons.visibility_off_outlined),
-            )
-                : widget.phone && isRtl
-                ? widget.phoneCode
-                : null,
+                widget.password
+                    ? IconButton(
+                      color: Color(0xff242424),
+                      iconSize: 18,
+                      onPressed: () {
+                        setState(() {
+                          show = !show;
+                        });
+                      },
+                      icon: Icon(
+                        show
+                            ? Icons.visibility_outlined
+                            : Icons.visibility_off_outlined,
+                      ),
+                    )
+                    : widget.phone && isRtl
+                    ? widget.phoneCode
+                    : null,
           ),
           // onChanged: widget.onChanged,
           obscureText: widget.password ? show : false,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
+          autovalidateMode: AutovalidateMode.always,
         ),
       ],
     );

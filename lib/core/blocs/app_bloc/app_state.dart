@@ -6,7 +6,7 @@ class AppState extends Equatable {
   const AppState({
     this.isLaunched = false,
     this.isFirstTime = false,
-     this.me,
+    this.me,
     this.appStatus = Status.startup,
     this.baseUrl,
     this.isError = false,
@@ -24,7 +24,7 @@ class AppState extends Equatable {
 
   final bool isError;
   final String error;
-   final UserModel? me;
+  final UserModel? me;
 
   AppState copyWith({
     bool? isLaunched,
@@ -44,7 +44,7 @@ class AppState extends Equatable {
       isFirstTime: isFirstTime ?? this.isFirstTime,
       appStatus: appStatus ?? this.appStatus,
       isProfileFilled: isProfileFilled ?? this.isProfileFilled,
-      me: me?? this.me,
+      me: me ?? this.me,
     );
   }
 
@@ -57,6 +57,6 @@ class AppState extends Equatable {
     error,
     isProfileFilled,
     baseUrl,
-     me,
+    me,
   ];
 }

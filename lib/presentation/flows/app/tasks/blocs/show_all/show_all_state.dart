@@ -1,6 +1,6 @@
 part of 'show_all_bloc.dart';
 
-enum TasksType {all, user}
+enum TasksType { all, user }
 
 extension TasksTypeExtension on TasksType {
   TasksType toggle() {
@@ -10,18 +10,20 @@ extension TasksTypeExtension on TasksType {
 
 class ShowAllState extends Equatable {
   const ShowAllState({
-     this.status = PageStatus.init,
-     this.userTasksStatus = PageStatus.init,
-     this.type = TasksType.all,
-     this.displayedList = const [],
-     this.userTasksList  = const [],
-     this.allTasksList  = const [],
-     this.error = '',
-  });
+    this.status = PageStatus.init,
+    this.userTasksStatus = PageStatus.init,
+    this.displayedStatus = PageStatus.init,
 
+    this.type = TasksType.all,
+    this.displayedList = const [],
+    this.userTasksList = const [],
+    this.allTasksList = const [],
+    this.error = '',
+  });
 
   final PageStatus status;
   final PageStatus userTasksStatus;
+  final PageStatus displayedStatus;
   final TasksType type;
   final List<TaskModel> displayedList;
   final List<TaskModel> userTasksList;
@@ -31,6 +33,7 @@ class ShowAllState extends Equatable {
   ShowAllState copyWith({
     PageStatus? status,
     PageStatus? userTasksStatus,
+    PageStatus? displayedStatus,
     TasksType? type,
     List<TaskModel>? displayedList,
     List<TaskModel>? userTasksList,
@@ -40,6 +43,7 @@ class ShowAllState extends Equatable {
     return ShowAllState(
       status: status ?? this.status,
       userTasksStatus: userTasksStatus ?? this.userTasksStatus,
+      displayedStatus: displayedStatus ?? this.displayedStatus,
       type: type ?? this.type,
       displayedList: displayedList ?? this.displayedList,
       userTasksList: userTasksList ?? this.userTasksList,
@@ -52,6 +56,7 @@ class ShowAllState extends Equatable {
   List<Object?> get props => [
     status,
     userTasksStatus,
+    displayedStatus,
     type,
     displayedList,
     userTasksList,
@@ -59,5 +64,3 @@ class ShowAllState extends Equatable {
     error,
   ];
 }
-
-
