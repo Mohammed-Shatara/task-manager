@@ -154,6 +154,7 @@ class _UpdateTaskScreenState extends State<UpdateTaskScreen> {
                     validator: (value) {
                       return BaseValidator.validateValue(value, [
                         locator<RequiredValidator>(),
+                        locator<DateAsStringValidator>(),
                       ], state.valid != null);
                     },
                   ),

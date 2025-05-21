@@ -124,6 +124,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                     validator: (value) {
                       return BaseValidator.validateValue(value, [
                         locator<RequiredValidator>(),
+                        locator<DateAsStringValidator>(),
                       ], state.valid != null);
                     },
                   ),

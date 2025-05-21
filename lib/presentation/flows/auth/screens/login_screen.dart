@@ -100,6 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                           password: text.trim(),
                                         );
                                       },
+
                                       validator: (value) {
                                         return BaseValidator.validateValue(
                                           value,
@@ -109,6 +110,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                           ],
                                           state.loginState.valid != null,
                                         );
+                                      },
+                                      onFieldSubmitted: (value) {
+                                        authBloc.login();
                                       },
                                     ),
                                     UnderLineTextButton(

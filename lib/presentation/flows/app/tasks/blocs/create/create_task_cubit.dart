@@ -46,8 +46,6 @@ class CreateTaskCubit extends Cubit<CreateTaskState> {
     if (result.hasErrorOnly) {
       emit(
         state.copyWith(
-          pageStatus: PageStatus.error,
-          error: result.error.toString(),
           valid: false,
         ),
       );

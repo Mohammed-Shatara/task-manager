@@ -68,8 +68,10 @@ Future<void> setUpLocator() async {
   );
 
   locator.registerLazySingleton(() => RequiredValidator());
+  locator.registerLazySingleton(() => IdRequiredValidator());
   locator.registerLazySingleton(() => EmailValidator());
   locator.registerLazySingleton(() => DateValidator());
+  locator.registerLazySingleton(() => DateAsStringValidator());
   locator.registerLazySingleton(() => PasswordValidator(minLength: 8));
   locator.registerLazySingleton(() => MinimumValidator(minLength: 4));
 
@@ -140,6 +142,7 @@ Future<void> setUpLocator() async {
 
   locator.registerLazySingleton(
     () => UpdateTaskValidationUseCase(
+      idRequiredValidator: locator(),
       requiredValidator: locator(),
       minimumValidator: locator(),
       dateValidator: locator(),

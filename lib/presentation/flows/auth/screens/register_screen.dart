@@ -143,6 +143,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                             state.registerState.valid != null,
                                           );
                                         },
+                                        onFieldSubmitted: (value) {
+                                          authBloc.register();
+                                        },
                                       ),
                                     ],
                                   ),
