@@ -106,6 +106,8 @@ class _TaskItemState extends State<TaskItem>
               children: [
                 Text(
                   widget.name,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: theme.textTheme.titleMedium?.copyWith(
                     color: theme.colorScheme.onSurface,
                   ),
@@ -115,8 +117,12 @@ class _TaskItemState extends State<TaskItem>
                     padding: const EdgeInsets.only(top: 6.0),
                     child: Text(
                       widget.description!,
+                      maxLines: 2,
+                      textAlign: TextAlign.justify,
+                      overflow: TextOverflow.ellipsis,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: theme.colorScheme.onSurfaceVariant,
+
                       ),
                     ),
                   ),

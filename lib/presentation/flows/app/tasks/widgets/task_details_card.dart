@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -20,15 +21,17 @@ class TaskDetailsCard extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
         padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _Header(task: task),
-            if (task.description?.trim().isNotEmpty ?? false)
-              _Description(description: task.description!),
-            const SizedBox(height: 28),
-            _StatusAndDueDate(status: status, dueDateStr: dueDateStr),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _Header(task: task),
+              if (task.description?.trim().isNotEmpty ?? false)
+                _Description(description: task.description!),
+              const SizedBox(height: 28),
+              _StatusAndDueDate(status: status, dueDateStr: dueDateStr),
+            ],
+          ),
         ),
       ),
     );
@@ -45,10 +48,12 @@ class _Header extends StatelessWidget {
     final theme = Theme.of(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
-          child: Text(
+          child: AutoSizeText(
             task.name,
+            maxLines: 6,
             style: theme.textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.w600,
             ),
@@ -85,11 +90,14 @@ class _Description extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 6),
-          Text(
+          AutoSizeText(
             description,
+            maxLines: 10,
+            textAlign: TextAlign.justify,
             style: theme.textTheme.bodyLarge?.copyWith(
               color: theme.colorScheme.onSurfaceVariant,
               height: 1.5,
+
             ),
           ),
         ],

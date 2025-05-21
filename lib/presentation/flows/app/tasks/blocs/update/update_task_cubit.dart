@@ -79,8 +79,6 @@ class UpdateTaskCubit extends Cubit<UpdateTaskState> {
     if (result.hasErrorOnly) {
       emit(
         state.copyWith(
-          updateStatus: PageStatus.error,
-          error: result.error.toString(),
           valid: false,
         ),
       );

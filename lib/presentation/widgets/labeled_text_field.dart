@@ -16,6 +16,7 @@ class LabeledTextField extends StatefulWidget {
     this.keyboardType,
     this.textDirection,
     this.validator,
+    this.onFieldSubmitted
   });
 
   final String label;
@@ -31,6 +32,7 @@ class LabeledTextField extends StatefulWidget {
   final Function(String val)? onChanged;
   final TextDirection? textDirection;
   final String? Function(String? value)? validator;
+  final void Function(String? value)? onFieldSubmitted;
 
   @override
   State<LabeledTextField> createState() => _LabeledTextFieldState();
@@ -68,6 +70,7 @@ class _LabeledTextFieldState extends State<LabeledTextField> {
           textDirection: widget.textDirection,
           onChanged: widget.onChanged,
           validator: widget.validator,
+          onFieldSubmitted: widget.onFieldSubmitted,
           decoration: InputDecoration(
             hintText: widget.hint,
             suffixText: widget.suffixText,

@@ -44,8 +44,6 @@ class AppBloc extends Bloc<AppEvent, AppState> with BlocMember {
     switch (data.runtimeType) {
       case const (AppStatus):
         setAppStatus(data as AppStatus);
-        print('data as AppStatus: ${(data).data}');
-
         break;
 
       /// handle app status receiver and me result
@@ -56,7 +54,7 @@ class AppBloc extends Bloc<AppEvent, AppState> with BlocMember {
 extension AppBlocMappers on AppBloc {
   void _onLaunchApp(LaunchAppEvent event, Emitter<AppState> emit) async {
     final isFirstTime = await initAppStore.isFirstTime;
-    await Future.delayed(const Duration(seconds: 1));
+    await Future.delayed(const Duration(milliseconds: 3100));
     if (isFirstTime) {
       initAppStore.setFirstTime();
     }
@@ -68,7 +66,6 @@ extension AppBlocMappers on AppBloc {
       final userId = int.tryParse(await sessionManager.authToken);
       if (userId != null) {
         final result = await getUserUseCase(userId);
-        print('userIduserId: $userId ${result.hasDataOnly}');
         if (result.hasDataOnly) {
           emit(state.copyWith(me: result.data));
         }
