@@ -73,15 +73,20 @@ void main() {
       expect(result.error?.toString(), 'Date must be in the future');
     });
 
-    test('calls repository and returns success when validation passes', () async {
-      when(mockRepository.createTask(any)).thenAnswer((_) async => Result(data: 42));
+    test(
+      'calls repository and returns success when validation passes',
+      () async {
+        when(
+          mockRepository.createTask(any),
+        ).thenAnswer((_) async => Result(data: 42));
 
-      final result = await useCase(validParams);
+        final result = await useCase(validParams);
 
-      expect(result.hasDataOnly, true);
-      expect(result.data, 42);
+        expect(result.hasDataOnly, true);
+        expect(result.data, 42);
 
-      verify(mockRepository.createTask(any)).called(1);
-    });
+        verify(mockRepository.createTask(any)).called(1);
+      },
+    );
   });
 }

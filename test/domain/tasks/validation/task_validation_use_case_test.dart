@@ -24,61 +24,71 @@ void main() {
 
   group('TaskValidationUseCase', () {
     test('returns Result(data: true) for valid input', () {
-      final result = useCase(TaskParams(
-        name: 'Valid Task',
-        status: 'pending',
-        userId: 1,
-        dueDate: DateTime.now().add(Duration(days: 1)),
-      ));
+      final result = useCase(
+        TaskParams(
+          name: 'Valid Task',
+          status: 'pending',
+          userId: 1,
+          dueDate: DateTime.now().add(Duration(days: 1)),
+        ),
+      );
 
       expect(result.hasDataOnly, true);
       expect(result.data, true);
     });
 
     test('returns error if name is empty', () {
-      final result = useCase(TaskParams(
-        name: '',
-        status: 'pending',
-        userId: 3,
+      final result = useCase(
+        TaskParams(
+          name: '',
+          status: 'pending',
+          userId: 3,
 
-        dueDate: DateTime.now().add(Duration(days: 1)),
-      ));
+          dueDate: DateTime.now().add(Duration(days: 1)),
+        ),
+      );
 
       expect(result.hasErrorOnly, true);
       expect(result.error?.toString(), 'Required Input');
     });
 
     test('returns error if name is too short', () {
-      final result = useCase(TaskParams(
-        name: 'Hi',
-        status: 'pending',
-        userId: 4,
-        dueDate: DateTime.now().add(Duration(days: 1)),
-      ));
+      final result = useCase(
+        TaskParams(
+          name: 'Hi',
+          status: 'pending',
+          userId: 4,
+          dueDate: DateTime.now().add(Duration(days: 1)),
+        ),
+      );
 
       expect(result.hasErrorOnly, true);
       expect(result.error?.toString(), 'minimum length should be 3');
     });
 
     test('returns error if status is empty', () {
-      final result = useCase(TaskParams(
-        name: 'Valid Task',
-        status: '',
-        userId: 6,
-        dueDate: DateTime.now().add(Duration(days: 1)),
-      ));
+      final result = useCase(
+        TaskParams(
+          name: 'Valid Task',
+          status: '',
+          userId: 6,
+          dueDate: DateTime.now().add(Duration(days: 1)),
+        ),
+      );
 
       expect(result.hasErrorOnly, true);
       expect(result.error?.toString(), 'Required Input');
     });
 
     test('returns error if dueDate is in the past', () {
-      final result = useCase(TaskParams(
-        name: 'Valid Task',
-        status: 'pending',
-        userId: 7,
-        dueDate: DateTime.now().subtract(Duration(days: 1)),
-      ));
+      final result = useCase(
+        TaskParams(
+          name: 'Valid Task',
+          status: 'pending',
+          userId: 7,
+          dueDate: DateTime.now().subtract(Duration(days: 1)),
+        ),
+      );
 
       expect(result.hasErrorOnly, true);
       expect(result.error?.toString(), 'Date must be in the future');

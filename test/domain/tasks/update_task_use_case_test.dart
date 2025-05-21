@@ -12,7 +12,6 @@ import 'package:task_manager/domain/use_cases/tasks/validations/task_validation_
 
 import 'create_task_use_case_test.mocks.dart';
 
-
 @GenerateMocks([TasksRepository])
 void main() {
   late MockTasksRepository mockRepository;
@@ -80,7 +79,6 @@ void main() {
 
     test('returns error if name is too short', () async {
       final invalidParams = UpdateTaskParams(
-
         id: 1,
         name: 'Hi',
         description: 'description',
@@ -98,8 +96,9 @@ void main() {
     });
 
     test('calls repository and returns success when valid', () async {
-      when(mockRepository.updateTask(any))
-          .thenAnswer((_) async => Result(data: true));
+      when(
+        mockRepository.updateTask(any),
+      ).thenAnswer((_) async => Result(data: true));
 
       final result = await useCase(validParams);
 

@@ -26,8 +26,9 @@ void main() {
       email: 'john@example.com',
       password: 'secret',
     );
-    when(mockAuthRepository.getUserById(1))
-        .thenAnswer((_) async => Result(data: user));
+    when(
+      mockAuthRepository.getUserById(1),
+    ).thenAnswer((_) async => Result(data: user));
 
     final result = await useCase(1);
 
@@ -38,8 +39,9 @@ void main() {
 
   test('returns error when repository returns error', () async {
     final error = CustomError(message: 'User not found');
-    when(mockAuthRepository.getUserById(2))
-        .thenAnswer((_) async => Result(error: error));
+    when(
+      mockAuthRepository.getUserById(2),
+    ).thenAnswer((_) async => Result(error: error));
 
     final result = await useCase(2);
 

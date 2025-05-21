@@ -12,9 +12,6 @@ import 'package:task_manager/domain/use_cases/auth/validations/login_validator_u
 
 import 'login_usecase_test.mocks.dart';
 
-
-
-
 @GenerateMocks([LoginValidatorUseCase, AuthRepository])
 void main() {
   late LoginUseCase useCase;
@@ -29,7 +26,8 @@ void main() {
       requiredValidator: RequiredValidator(),
       emailValidator: EmailValidator(),
       passwordValidator: PasswordValidator(minLength: 6),
-    );;
+    );
+
     useCase = LoginUseCase(
       loginValidatorUseCase: validator,
       authRepository: mockAuthRepository,
@@ -44,15 +42,18 @@ void main() {
       password: '123456',
     );
 
-    when(mockAuthRepository.login(loginParams.email, loginParams.password))
-        .thenAnswer((_) async => Result(data: user));
+    when(
+      mockAuthRepository.login(loginParams.email, loginParams.password),
+    ).thenAnswer((_) async => Result(data: user));
 
     final result = await useCase(loginParams);
 
     expect(result.hasDataOnly, true);
     expect(result.data, user);
 
-    verify(mockAuthRepository.login(loginParams.email, loginParams.password)).called(1);
+    verify(
+      mockAuthRepository.login(loginParams.email, loginParams.password),
+    ).called(1);
   });
 
   test('returns validation error and skips repository call', () async {

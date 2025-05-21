@@ -122,7 +122,6 @@ class _TaskItemState extends State<TaskItem>
                       overflow: TextOverflow.ellipsis,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: theme.colorScheme.onSurfaceVariant,
-
                       ),
                     ),
                   ),

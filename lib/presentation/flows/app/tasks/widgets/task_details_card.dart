@@ -97,7 +97,6 @@ class _Description extends StatelessWidget {
             style: theme.textTheme.bodyLarge?.copyWith(
               color: theme.colorScheme.onSurfaceVariant,
               height: 1.5,
-
             ),
           ),
         ],

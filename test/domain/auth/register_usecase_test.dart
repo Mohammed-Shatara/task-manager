@@ -42,9 +42,9 @@ void main() {
   );
 
   final invalidParams = RegisterParams(
-    fullName: 'Jo',          // minimumValidator (3)
+    fullName: 'Jo', // minimumValidator (3)
     email: 'invalidemail',
-    password: '123',         // PasswordValidator (6)
+    password: '123', // PasswordValidator (6)
   );
 
   final userModel = UserModel(
@@ -65,8 +65,9 @@ void main() {
   });
 
   test('returns user model when validation passes and user created', () async {
-    when(mockAuthRepository.createUser(any))
-        .thenAnswer((_) async => Result(data: userModel));
+    when(
+      mockAuthRepository.createUser(any),
+    ).thenAnswer((_) async => Result(data: userModel));
 
     final result = await useCase(validParams);
 
@@ -79,8 +80,9 @@ void main() {
   test('returns error when repository fails to create user', () async {
     final error = CustomError(message: 'Email already exists');
 
-    when(mockAuthRepository.createUser(any))
-        .thenAnswer((_) async => Result(error: error));
+    when(
+      mockAuthRepository.createUser(any),
+    ).thenAnswer((_) async => Result(error: error));
 
     final result = await useCase(validParams);
 

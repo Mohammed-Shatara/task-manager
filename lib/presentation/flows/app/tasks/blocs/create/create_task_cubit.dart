@@ -44,11 +44,7 @@ class CreateTaskCubit extends Cubit<CreateTaskState> {
     final result = validationUseCase(taskParams);
 
     if (result.hasErrorOnly) {
-      emit(
-        state.copyWith(
-          valid: false,
-        ),
-      );
+      emit(state.copyWith(valid: false));
       return;
     }
     emit(state.copyWith(pageStatus: PageStatus.loading, valid: true));

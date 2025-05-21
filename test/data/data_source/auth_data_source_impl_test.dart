@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
-import 'package:dartz/dartz.dart';
 import 'package:task_manager/core/error/custom_error.dart';
 import 'package:task_manager/data/data_sources/auth/auth_data_source_impl.dart';
 import 'package:task_manager/data/database/dao/user_dao.dart';
@@ -10,7 +9,6 @@ import 'package:task_manager/data/models/user_model.dart';
 import 'package:task_manager/data/requests/user_request.dart';
 
 import 'auth_data_source_impl_test.mocks.dart';
-
 
 @GenerateMocks([UserDao])
 void main() {
@@ -31,8 +29,9 @@ void main() {
         password: 'pass',
       );
 
-      when(mockUserDao.login('test@example.com', 'pass'))
-          .thenAnswer((_) async => userFromDb);
+      when(
+        mockUserDao.login('test@example.com', 'pass'),
+      ).thenAnswer((_) async => userFromDb);
 
       final result = await dataSource.login('test@example.com', 'pass');
 
@@ -58,8 +57,9 @@ void main() {
         password: '123',
       );
 
-      when(mockUserDao.getUserByEmail(userRequest.email))
-          .thenAnswer((_) async => null);
+      when(
+        mockUserDao.getUserByEmail(userRequest.email),
+      ).thenAnswer((_) async => null);
       when(mockUserDao.createUser(any)).thenAnswer((_) async => 42);
 
       final result = await dataSource.createUser(userRequest);
@@ -82,8 +82,9 @@ void main() {
         password: '123',
       );
 
-      when(mockUserDao.getUserByEmail(userRequest.email))
-          .thenAnswer((_) async => existing);
+      when(
+        mockUserDao.getUserByEmail(userRequest.email),
+      ).thenAnswer((_) async => existing);
 
       final result = await dataSource.createUser(userRequest);
 

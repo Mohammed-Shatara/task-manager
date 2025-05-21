@@ -47,7 +47,7 @@ class IdRequiredValidator extends BaseValidator<String> {
 
   @override
   bool validateFunction(String? value) {
-    int? number = int.tryParse(value?? '0');
-    return number != null && number>0;
+    int? number = int.tryParse(value ?? '0');
+    return number != null && number > 0;
   }
 }

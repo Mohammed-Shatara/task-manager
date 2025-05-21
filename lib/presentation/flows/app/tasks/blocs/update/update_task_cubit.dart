@@ -77,11 +77,7 @@ class UpdateTaskCubit extends Cubit<UpdateTaskState> {
     final result = validationUseCase(taskParams);
 
     if (result.hasErrorOnly) {
-      emit(
-        state.copyWith(
-          valid: false,
-        ),
-      );
+      emit(state.copyWith(valid: false));
       return;
     }
     emit(state.copyWith(updateStatus: PageStatus.loading, valid: true));

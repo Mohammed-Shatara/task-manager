@@ -57,7 +57,7 @@ class UpdateTaskValidationUseCase
   final MinimumValidator minimumValidator;
   final DateValidator dateValidator;
 
-  UpdateTaskValidationUseCase( {
+  UpdateTaskValidationUseCase({
     required this.requiredValidator,
     required this.minimumValidator,
     required this.dateValidator,
@@ -68,7 +68,7 @@ class UpdateTaskValidationUseCase
   Result<BaseError, bool> call(UpdateTaskParams params) {
     final idError = BaseValidator.validateValue(params.id.toString(), [
       requiredValidator,
-      idRequiredValidator
+      idRequiredValidator,
     ], true);
 
     final nameError = BaseValidator.validateValue(params.name, [

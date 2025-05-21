@@ -5,7 +5,6 @@ import 'package:task_manager/data/data_sources/tasks/tasks_data_source_impl.dart
 import 'package:task_manager/data/database/dao/task_dao.dart';
 import 'package:task_manager/data/requests/task_requests.dart';
 
-
 import 'tasks_data_source_impl_test.mocks.dart';
 
 @GenerateMocks([TaskDao])

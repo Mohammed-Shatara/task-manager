@@ -2,7 +2,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-
 import 'package:dartz/dartz.dart';
 import 'package:task_manager/core/error/custom_error.dart';
 import 'package:task_manager/data/data_sources/tasks/tasks_data_source.dart';
@@ -50,8 +49,9 @@ void main() {
     );
 
     test('createTask returns Result with data when successful', () async {
-      when(mockDataSource.createTask(taskRequest))
-          .thenAnswer((_) async => right(100));
+      when(
+        mockDataSource.createTask(taskRequest),
+      ).thenAnswer((_) async => right(100));
 
       final result = await repository.createTask(taskRequest);
 
@@ -61,8 +61,9 @@ void main() {
     });
 
     test('updateTask returns Result with data when successful', () async {
-      when(mockDataSource.updateTask(updateRequest))
-          .thenAnswer((_) async => right(true));
+      when(
+        mockDataSource.updateTask(updateRequest),
+      ).thenAnswer((_) async => right(true));
 
       final result = await repository.updateTask(updateRequest);
 
@@ -72,8 +73,9 @@ void main() {
     });
 
     test('getTaskById returns Result with data when successful', () async {
-      when(mockDataSource.getTaskById(1))
-          .thenAnswer((_) async => right(testTaskModel));
+      when(
+        mockDataSource.getTaskById(1),
+      ).thenAnswer((_) async => right(testTaskModel));
 
       final result = await repository.getTaskById(1);
 
@@ -84,8 +86,7 @@ void main() {
 
     test('deleteTask returns Result with error when failed', () async {
       final error = CustomError(message: 'Failed');
-      when(mockDataSource.deleteTask(1))
-          .thenAnswer((_) async => left(error));
+      when(mockDataSource.deleteTask(1)).thenAnswer((_) async => left(error));
 
       final result = await repository.deleteTask(1);
 

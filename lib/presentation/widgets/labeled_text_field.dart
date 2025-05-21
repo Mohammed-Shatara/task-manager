@@ -16,7 +16,7 @@ class LabeledTextField extends StatefulWidget {
     this.keyboardType,
     this.textDirection,
     this.validator,
-    this.onFieldSubmitted
+    this.onFieldSubmitted,
   });
 
   final String label;

@@ -6,7 +6,6 @@ import 'package:task_manager/core/validators/required_validator.dart';
 import 'package:task_manager/domain/use_cases/auth/login_use_case.dart';
 import 'package:task_manager/domain/use_cases/auth/validations/login_validator_use_case.dart';
 
-
 void main() {
   late LoginValidatorUseCase useCase;
 
@@ -19,7 +18,9 @@ void main() {
   });
 
   test('returns true when email and password are valid', () {
-    final result = useCase(LoginParams(email: 'test@example.com', password: '123456'));
+    final result = useCase(
+      LoginParams(email: 'test@example.com', password: '123456'),
+    );
 
     expect(result.hasDataOnly, true);
     expect(result.data, true);
@@ -33,23 +34,32 @@ void main() {
   });
 
   test('returns error if email is invalid', () {
-    final result = useCase(LoginParams(email: 'invalid_email', password: '123456'));
+    final result = useCase(
+      LoginParams(email: 'invalid_email', password: '123456'),
+    );
 
     expect(result.hasErrorOnly, true);
     expect((result.error as CustomError).message, 'Invalid Email');
   });
 
   test('returns error if password is empty', () {
-    final result = useCase(LoginParams(email: 'test@example.com', password: ''));
+    final result = useCase(
+      LoginParams(email: 'test@example.com', password: ''),
+    );
 
     expect(result.hasErrorOnly, true);
     expect((result.error as CustomError).message, 'Required Input');
   });
 
   test('returns error if password is too short', () {
-    final result = useCase(LoginParams(email: 'test@example.com', password: '123'));
+    final result = useCase(
+      LoginParams(email: 'test@example.com', password: '123'),
+    );
 
     expect(result.hasErrorOnly, true);
-    expect((result.error as CustomError).message, 'password minimum length is 6');
+    expect(
+      (result.error as CustomError).message,
+      'password minimum length is 6',
+    );
   });
 }

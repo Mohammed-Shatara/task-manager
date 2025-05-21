@@ -13,16 +13,16 @@ class SplashScreen extends StatelessWidget {
           animatedTexts: [
             FadeAnimatedText(
               'Task Manager',
-              textStyle: TextTheme.of(
-                context,
-              ).headlineMedium?.copyWith(color: Theme.of(context).colorScheme.onPrimary),
+              textStyle: TextTheme.of(context).headlineMedium?.copyWith(
+                color: Theme.of(context).colorScheme.onPrimary,
+              ),
               duration: const Duration(milliseconds: 1500),
             ),
             FadeAnimatedText(
               'Manage Smarter',
-              textStyle: TextTheme.of(
-                context,
-              ).headlineSmall?.copyWith(color: Theme.of(context).colorScheme.onPrimary),
+              textStyle: TextTheme.of(context).headlineSmall?.copyWith(
+                color: Theme.of(context).colorScheme.onPrimary,
+              ),
               duration: const Duration(milliseconds: 1500),
             ),
           ],

@@ -8,7 +8,6 @@ import 'package:task_manager/domain/use_cases/tasks/delete_task_use_case.dart';
 
 import 'delete_task_use_case_test.mocks.dart';
 
-
 @GenerateMocks([TasksRepository])
 void main() {
   late MockTasksRepository mockRepository;
@@ -22,8 +21,9 @@ void main() {
   const taskId = 1;
 
   test('should return success result from repository', () async {
-    when(mockRepository.deleteTask(taskId))
-        .thenAnswer((_) async => Result(data: true));
+    when(
+      mockRepository.deleteTask(taskId),
+    ).thenAnswer((_) async => Result(data: true));
 
     final result = await useCase(taskId);
 
@@ -34,8 +34,9 @@ void main() {
 
   test('should return error result from repository', () async {
     final error = CustomError(message: 'Deletion failed');
-    when(mockRepository.deleteTask(taskId))
-        .thenAnswer((_) async => Result(error: error));
+    when(
+      mockRepository.deleteTask(taskId),
+    ).thenAnswer((_) async => Result(error: error));
 
     final result = await useCase(taskId);
 
