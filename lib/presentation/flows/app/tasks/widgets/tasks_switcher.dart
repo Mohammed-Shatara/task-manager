@@ -40,7 +40,7 @@ class _TasksSwitcherState extends State<TasksSwitcher> {
                   border: Border.all(color: Theme.of(context).primaryColor),
                 ),
                 child: Text(
-                  state.type == TasksType.all ? 'User' : 'All',
+                  state.type == TasksType.all ? 'All' : 'User',
                   style: TextTheme.of(context).bodyLarge?.copyWith(
                     color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.w500,

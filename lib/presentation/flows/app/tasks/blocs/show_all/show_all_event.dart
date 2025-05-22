@@ -16,4 +16,10 @@ class GetUserTaskEvent extends ShowAllEvent {
   GetUserTaskEvent({required this.userId});
 }
 
+class GetRemoteTasksEvent extends ShowAllEvent {
+  final bool? loading;
+
+  GetRemoteTasksEvent({this.loading = true});
+}
+
 class SwitchListEvent extends ShowAllEvent {}

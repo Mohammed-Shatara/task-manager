@@ -6,6 +6,7 @@ import 'package:task_manager/core/validators/email_validator.dart';
 import 'package:task_manager/core/validators/password_validators.dart';
 import 'package:task_manager/core/validators/required_validator.dart';
 import 'package:task_manager/data/data_sources/auth/auth_data_source_impl.dart';
+import 'package:task_manager/data/data_sources/tasks/remote/tasks_remote_data_source.dart';
 import 'package:task_manager/data/data_sources/tasks/tasks_data_source_impl.dart';
 import 'package:task_manager/data/database/app_database.dart';
 import 'package:task_manager/data/repositories/auth_repository_impl.dart';
@@ -31,13 +32,17 @@ import '../core/api/auth_interceptor.dart';
 import '../core/blocs/app_bloc/app_bloc.dart';
 import '../core/resources/colors.dart';
 import '../core/services/init_app_store.dart';
+import '../core/services/internet_checker_service.dart';
 import '../core/services/session_manager.dart';
+import '../data/data_sources/tasks/remote/tasks_remote_data_source_impl.dart';
 import '../domain/use_cases/auth/get_user_use_case.dart';
+import '../domain/use_cases/tasks/get_remote_tasks_use_case.dart';
 import '../presentation/flows/app/tasks/blocs/delete/delete_task_cubit.dart';
 
 final locator = GetIt.instance;
 
 Future<void> setUpLocator() async {
+  locator.registerLazySingleton(() => InternetConnectionService());
   locator.registerLazySingleton<BlocHub>(() => ConcreteHub());
   locator.registerLazySingleton(() => AppDatabase());
 
@@ -125,11 +130,20 @@ Future<void> setUpLocator() async {
 
   ///********************************* Tasks ******************************************
 
+  /// remote
+  locator.registerLazySingleton(() => TasksRemoteDataSourceImpl());
+
+  /// local
   locator.registerLazySingleton(
     () => TasksDataSourceImpl(locator<AppDatabase>().taskDao),
   );
+
   locator.registerLazySingleton(
-    () => TasksRepositoryImpl(tasksDataSource: locator<TasksDataSourceImpl>()),
+    () => TasksRepositoryImpl(
+      tasksDataSource: locator<TasksDataSourceImpl>(),
+      tasksRemoteDataSource: locator<TasksRemoteDataSourceImpl>(),
+      internetConnectionService: locator<InternetConnectionService>(),
+    ),
   );
 
   locator.registerLazySingleton(
@@ -164,6 +178,9 @@ Future<void> setUpLocator() async {
     () => GetUserTaskUseCase(tasksRepository: locator<TasksRepositoryImpl>()),
   );
   locator.registerLazySingleton(
+    () => GetRemoteTaskUseCase(tasksRepository: locator<TasksRepositoryImpl>()),
+  );
+  locator.registerLazySingleton(
     () => GetSingleTaskUseCase(tasksRepository: locator<TasksRepositoryImpl>()),
   );
   locator.registerLazySingleton(
@@ -182,6 +199,7 @@ Future<void> setUpLocator() async {
     () => ShowAllBloc(
       watchTasksUseCase: locator(),
       getUserTaskUseCase: locator(),
+      getRemoteTaskUseCase: locator(),
     ),
   );
   locator.registerFactory(

@@ -94,9 +94,9 @@ class AuthInterceptor extends Interceptor {
 
   Future<Response> _fetchNewToken(String refreshToken, String token) async {
     Dio dio = Dio();
-    // ${locator<AppBloc>().state.baseUrl}${ApiUrls.refreshToken}
     Response response = await dio.post(
-      '${locator<AppBloc>().state.baseUrl}${ApiUrls.refreshToken}',
+      // '${locator<AppBloc>().state.baseUrl}${ApiUrls.refreshToken}',
+      '',
       data: {"token": refreshToken},
       options: Options(
         headers: {

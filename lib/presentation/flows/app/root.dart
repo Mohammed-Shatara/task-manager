@@ -52,6 +52,12 @@ class RootPageWidget extends StatelessWidget {
               ),
 
               BottomNavigationBarItem(
+                activeIcon: SvgPicture.asset(SvgKeys.activeRemote),
+                icon: SvgPicture.asset(SvgKeys.remote),
+                label: "remote",
+              ),
+
+              BottomNavigationBarItem(
                 activeIcon: SvgPicture.asset(SvgKeys.activeProfile),
                 icon: SvgPicture.asset(SvgKeys.profile),
                 label: "profile",

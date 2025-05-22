@@ -4,6 +4,8 @@ import 'package:mockito/mockito.dart';
 
 import 'package:dartz/dartz.dart';
 import 'package:task_manager/core/error/custom_error.dart';
+import 'package:task_manager/core/services/internet_checker_service.dart';
+import 'package:task_manager/data/data_sources/tasks/remote/tasks_remote_data_source.dart';
 import 'package:task_manager/data/data_sources/tasks/tasks_data_source.dart';
 import 'package:task_manager/data/models/task_model.dart';
 import 'package:task_manager/data/repositories/tasks_repository_impl.dart';
@@ -11,14 +13,28 @@ import 'package:task_manager/data/requests/task_requests.dart';
 
 import 'tasks_repository_impl_test.mocks.dart';
 
-@GenerateMocks([TasksDataSource])
+@GenerateMocks([
+  TasksDataSource,
+  TasksRemoteDataSource,
+  InternetConnectionService,
+])
 void main() {
   late MockTasksDataSource mockDataSource;
+  late MockTasksRemoteDataSource mockRemoteDataSource;
+  late MockInternetConnectionService mockInternetConnectionService;
+
   late TasksRepositoryImpl repository;
 
   setUp(() {
     mockDataSource = MockTasksDataSource();
-    repository = TasksRepositoryImpl(tasksDataSource: mockDataSource);
+    mockRemoteDataSource = MockTasksRemoteDataSource();
+    mockInternetConnectionService = MockInternetConnectionService();
+
+    repository = TasksRepositoryImpl(
+      tasksDataSource: mockDataSource,
+      tasksRemoteDataSource: mockRemoteDataSource,
+      internetConnectionService: mockInternetConnectionService,
+    );
   });
 
   group('TasksRepositoryImpl', () {

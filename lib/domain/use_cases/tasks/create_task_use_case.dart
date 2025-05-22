@@ -28,6 +28,7 @@ class CreateTaskUseCase
         userId: params.userId,
         name: params.name,
         description: params.description,
+        userFullName: params.userFullName,
         status: params.status,
         dueDate: params.dueDate,
       ),
@@ -38,6 +39,7 @@ class CreateTaskUseCase
 class TaskParams extends BaseParams {
   final String name;
   final String? description;
+  final String? userFullName;
   final String status;
   final DateTime dueDate;
   final int userId;
@@ -45,6 +47,7 @@ class TaskParams extends BaseParams {
   TaskParams({
     required this.name,
     this.description,
+    this.userFullName,
     required this.userId,
     required this.status,
     required this.dueDate,

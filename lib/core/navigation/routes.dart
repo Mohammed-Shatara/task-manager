@@ -13,6 +13,7 @@ import 'package:task_manager/presentation/flows/auth/screens/register_screen.dar
 import '../../app/di.dart';
 
 import '../../presentation/flows/app/profile/screens/profile_screen.dart';
+import '../../presentation/flows/app/remote/screens/remote_tasks_screen.dart';
 import '../../presentation/flows/intro/splash_screen.dart';
 import '../blocs/app_bloc/app_bloc.dart';
 
@@ -23,6 +24,7 @@ class RoutesPath {
   static String get splashScreen => '/';
 
   static String get homeScreen => '/root';
+  static String get remoteScreen => '/remote';
 
   static String taskDetailsScreen(String id) => '$homeScreen/task-details/$id';
   static String get createTaskScreen => '/create-task';
@@ -123,6 +125,24 @@ final List<RouteBase> routes = [
                 builder: (context, state) => const TaskDetailsScreen(),
               ),
             ],
+            redirect: (context, goRouterState) {
+              if (locator<AppBloc>().state.appStatus == Status.unauthorized) {
+                return RoutesPath.loginPage;
+              }
+              return null;
+            },
+          ),
+        ],
+      ),
+
+      StatefulShellBranch(
+        initialLocation: '/remote',
+        // Add this branch routes
+        // each routes with its sub routes if available e.g feed/uuid/details
+        routes: <RouteBase>[
+          GoRoute(
+            path: '/remote',
+            builder: (context, state) => const RemoteTaskScreen(),
             redirect: (context, goRouterState) {
               if (locator<AppBloc>().state.appStatus == Status.unauthorized) {
                 return RoutesPath.loginPage;

@@ -33,12 +33,14 @@ class CreateTaskCubit extends Cubit<CreateTaskState> {
     );
   }
 
-  Future<void> validateAndCreateTask(int userId) async {
+  Future<void> validateAndCreateTask(int userId, String? userFullName) async {
     final taskParams = TaskParams(
       userId: userId,
       name: state.name,
       description: state.description,
+      userFullName: userFullName,
       status: state.taskStatus.name,
+
       dueDate: state.dueDate ?? DateTime.now(),
     );
     final result = validationUseCase(taskParams);

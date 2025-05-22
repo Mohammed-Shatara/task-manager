@@ -9,6 +9,7 @@ abstract class TasksRepository extends Repository {
   Future<Result<BaseError, int>> createTask(TaskRequest task);
   Future<Result<BaseError, List<TaskModel>>> getTasksByUserId(int userId);
   Future<Result<BaseError, List<TaskModel>>> getAllTasks();
+  Future<Result<BaseError, List<TaskModel>>> getRemoteTasks();
   Stream<List<TaskWithUserModel>> watchTasksWithUsers();
   Stream<List<TaskModel>> watchTasks();
   Future<Result<BaseError, TaskModel>> getTaskById(int id);

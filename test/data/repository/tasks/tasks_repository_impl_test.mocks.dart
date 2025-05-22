@@ -7,7 +7,13 @@ import 'dart:async' as _i4;
 
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:task_manager/core/datasource/api_call_params.dart' as _i10;
 import 'package:task_manager/core/error/base_error.dart' as _i5;
+import 'package:task_manager/core/response/api_response.dart' as _i9;
+import 'package:task_manager/core/services/internet_checker_service.dart'
+    as _i11;
+import 'package:task_manager/data/data_sources/tasks/remote/tasks_remote_data_source.dart'
+    as _i8;
 import 'package:task_manager/data/data_sources/tasks/tasks_data_source.dart'
     as _i3;
 import 'package:task_manager/data/models/task_model.dart' as _i7;
@@ -144,4 +150,84 @@ class MockTasksDataSource extends _i1.Mock implements _i3.TasksDataSource {
             ),
           )
           as _i4.Future<_i2.Either<_i5.BaseError, bool>>);
+}
+
+/// A class which mocks [TasksRemoteDataSource].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockTasksRemoteDataSource extends _i1.Mock
+    implements _i8.TasksRemoteDataSource {
+  MockTasksRemoteDataSource() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i4.Future<_i2.Either<_i5.BaseError, int?>> createTask(
+    _i6.TaskRequest? task,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#createTask, [task]),
+            returnValue: _i4.Future<_i2.Either<_i5.BaseError, int?>>.value(
+              _FakeEither_0<_i5.BaseError, int?>(
+                this,
+                Invocation.method(#createTask, [task]),
+              ),
+            ),
+          )
+          as _i4.Future<_i2.Either<_i5.BaseError, int?>>);
+
+  @override
+  _i4.Future<_i2.Either<_i5.BaseError, List<_i7.TaskModel>>> getAllTasks() =>
+      (super.noSuchMethod(
+            Invocation.method(#getAllTasks, []),
+            returnValue: _i4.Future<
+              _i2.Either<_i5.BaseError, List<_i7.TaskModel>>
+            >.value(
+              _FakeEither_0<_i5.BaseError, List<_i7.TaskModel>>(
+                this,
+                Invocation.method(#getAllTasks, []),
+              ),
+            ),
+          )
+          as _i4.Future<_i2.Either<_i5.BaseError, List<_i7.TaskModel>>>);
+
+  @override
+  _i4.Future<_i2.Either<_i5.BaseError, Data>> request<
+    Data,
+    Response extends _i9.ApiResponse<dynamic>
+  >(_i10.ApiCallParams<Response>? params) =>
+      (super.noSuchMethod(
+            Invocation.method(#request, [params]),
+            returnValue: _i4.Future<_i2.Either<_i5.BaseError, Data>>.value(
+              _FakeEither_0<_i5.BaseError, Data>(
+                this,
+                Invocation.method(#request, [params]),
+              ),
+            ),
+          )
+          as _i4.Future<_i2.Either<_i5.BaseError, Data>>);
+}
+
+/// A class which mocks [InternetConnectionService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockInternetConnectionService extends _i1.Mock
+    implements _i11.InternetConnectionService {
+  MockInternetConnectionService() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i4.Future<bool> get isConnected =>
+      (super.noSuchMethod(
+            Invocation.getter(#isConnected),
+            returnValue: _i4.Future<bool>.value(false),
+          )
+          as _i4.Future<bool>);
+
+  @override
+  void dispose() => super.noSuchMethod(
+    Invocation.method(#dispose, []),
+    returnValueForMissingStub: null,
+  );
 }

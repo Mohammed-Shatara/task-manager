@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:intl/intl.dart';
 import 'package:task_manager/data/models/user_model.dart';
 
 import '../database/app_database.dart';
@@ -76,12 +77,16 @@ class TaskModel {
   };
 
   factory TaskModel.fromJson(Map<String, dynamic> json) => TaskModel(
-    id: json['id'],
+    id: int.tryParse(json['id']) ?? -1,
     userId: json['userId'],
     name: json['name'],
     description: json['description'],
+    userFullName: json['userFullName'],
     status: json['status'],
-    dueDate: DateTime.parse(json['dueDate']),
+    dueDate:
+        json['dueDate'] is int
+            ? (json['dueDate'] as int).parseUnixTimestamp()
+            : DateTime.parse(json['dueDate']),
   );
 
   TasksCompanion toCompanion() => TasksCompanion(
@@ -104,4 +109,10 @@ class TaskWithUserModel {
         task: TaskModel.fromTable(taskWithUser.task),
         user: UserModel.fromTable(taskWithUser.user),
       );
+}
+
+extension DateParser on int {
+  DateTime parseUnixTimestamp() {
+    return DateTime.fromMillisecondsSinceEpoch(this * 1000);
+  }
 }

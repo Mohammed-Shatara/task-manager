@@ -63,8 +63,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
             child: TextButton(
               onPressed: () {
                 final userId = locator<AppBloc>().user?.id;
+                final fullName = locator<AppBloc>().user?.fullname;
                 if (userId != null) {
-                  bloc.validateAndCreateTask(userId);
+                  bloc.validateAndCreateTask(userId, fullName);
                 }
               },
               child: Text(

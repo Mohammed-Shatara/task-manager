@@ -15,6 +15,7 @@ class TaskItem extends StatefulWidget {
   final DateTime dueDate;
   final String? userFullName;
   final String? description;
+  final bool isRemote;
 
   const TaskItem({
     super.key,
@@ -23,6 +24,7 @@ class TaskItem extends StatefulWidget {
     required this.dueDate,
     this.userFullName,
     this.description,
+    this.isRemote = false,
     required this.id,
   });
 
@@ -40,9 +42,6 @@ class _TaskItemState extends State<TaskItem>
   void initState() {
     super.initState();
 
-    // final shouldAnimate = !widget.animatedIndexes.contains(widget.index);
-    // if (shouldAnimate) widget.animatedIndexes.add(widget.index);
-
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 500),
@@ -58,13 +57,9 @@ class _TaskItemState extends State<TaskItem>
       curve: Curves.easeOut,
     );
 
-    // if (shouldAnimate) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) _controller.forward();
     });
-    // } else {
-    //   _controller.value = 1.0;
-    // }
   }
 
   @override
@@ -93,9 +88,11 @@ class _TaskItemState extends State<TaskItem>
           child: InkWell(
             borderRadius: BorderRadius.circular(16),
             onTap: () async {
-              await context.push(
-                RoutesPath.taskDetailsScreen(widget.id.toString()),
-              );
+              if (!widget.isRemote) {
+                await context.push(
+                  RoutesPath.taskDetailsScreen(widget.id.toString()),
+                );
+              }
               final userId = locator<AppBloc>().user?.id;
               if (userId != null) {
                 locator<ShowAllBloc>().getUserTasks(userId);

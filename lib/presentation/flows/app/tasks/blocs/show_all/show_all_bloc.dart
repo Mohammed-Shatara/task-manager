@@ -6,6 +6,8 @@ import 'package:task_manager/data/models/task_model.dart';
 import 'package:task_manager/domain/use_cases/tasks/get_user_tasks_use_case.dart';
 import 'package:task_manager/domain/use_cases/tasks/watch_tasks_use_case.dart';
 
+import '../../../../../../domain/use_cases/tasks/get_remote_tasks_use_case.dart';
+
 part 'show_all_event.dart';
 
 part 'show_all_state.dart';
@@ -13,15 +15,18 @@ part 'show_all_state.dart';
 class ShowAllBloc extends Bloc<ShowAllEvent, ShowAllState> {
   final WatchTasksWithUsersUseCase watchTasksUseCase;
   final GetUserTaskUseCase getUserTaskUseCase;
+  final GetRemoteTaskUseCase getRemoteTaskUseCase;
 
   ShowAllBloc({
     required this.watchTasksUseCase,
     required this.getUserTaskUseCase,
+    required this.getRemoteTaskUseCase,
   }) : super(ShowAllState()) {
     on<SwitchListEvent>(_onSwitchDisplayedTasks);
     on<WatchTasksEvent>(_onWatchTasks);
     on<GetUserTaskEvent>(_onGetUserTasks);
     on<SetTasksListEvent>(_onSetTasksList);
+    on<GetRemoteTasksEvent>(_onGetRemoteTasks);
   }
 }
 
@@ -58,6 +63,31 @@ extension ShowAllBlocMappers on ShowAllBloc {
       emit(
         state.copyWith(
           userTasksStatus: PageStatus.error,
+          error: result.error.toString(),
+        ),
+      );
+    }
+  }
+
+  void _onGetRemoteTasks(
+    GetRemoteTasksEvent event,
+    Emitter<ShowAllState> emit,
+  ) async {
+    if (event.loading ?? false) {
+      emit(state.copyWith(remoteStatus: PageStatus.loading));
+    }
+    final result = await getRemoteTaskUseCase(NoParams());
+    if (result.hasDataOnly) {
+      emit(
+        state.copyWith(
+          remoteStatus: PageStatus.success,
+          remoteTasksList: result.data?.reversed.toList(),
+        ),
+      );
+    } else {
+      emit(
+        state.copyWith(
+          remoteStatus: PageStatus.error,
           error: result.error.toString(),
         ),
       );
@@ -105,6 +135,10 @@ extension ShowAllBlocActions on ShowAllBloc {
 
   void switchListType() {
     add(SwitchListEvent());
+  }
+
+  void getRemoteTasks({bool? loading = true}) {
+    add(GetRemoteTasksEvent(loading: loading));
   }
 }
 

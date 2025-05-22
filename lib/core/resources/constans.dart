@@ -23,6 +23,8 @@ class ImagesKeys {
 class SvgKeys {
   static String get activeHome => "lib/assets/icons/navbar/home-2.svg";
   static String get home => "lib/assets/icons/navbar/home.svg";
+  static String get activeRemote => "lib/assets/icons/navbar/heart-2.svg";
+  static String get remote => "lib/assets/icons/navbar/heart.svg";
 
   static String get activeProfile => "lib/assets/icons/navbar/profile-2.svg";
   static String get profile => "lib/assets/icons/navbar/profile.svg";
