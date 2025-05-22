@@ -127,33 +127,122 @@ Contains core business logic and entities.
 
 Each feature uses either a BLoC or Cubit to manage state transitions and business logic.
 
+---
+
+### 🌐 App BLoC
+
+The `AppBloc` is responsible for managing the global state of the application, such as the user's authentication status, onboarding flow, and user session.
+
+It communicates with other BLoCs (e.g., `AuthBloc`) using `flutter_bloc_mediator`, allowing the app to react to changes like login/logout events without tight coupling between BLoCs.
+
+#### Events (`app_event.dart`)
+
+- `LaunchAppEvent`: Triggered on app startup; checks onboarding and authentication status.
+- `SetAppStatusEvent`: Sets the app's authentication status and user data (typically triggered by the `AuthBloc` via `sendTo`).
+- `LogoutEvent`: Clears session and resets authentication status.
+
+#### States (`app_state.dart`)
+
+- `isLaunched`: Indicates whether the app has finished its launch logic.
+- `isFirstTime`: Tracks if the app is launched for the first time.
+- `appStatus`: Represents the authentication status (`Status.authorized` or `Status.unauthorized`).
+- `me`: Holds the currently authenticated user's information (`UserModel?`).
+
+#### Mediator Communication (`receive` method)
+
+The `AppBloc` listens for messages from other BLoCs through `flutter_bloc_mediator`:
+
+```dart
+@override
+void receive(String from, CommunicationType data) {
+  switch (data.runtimeType) {
+    case const (AppStatus):
+      setAppStatus(data as AppStatus);
+      break;
+  }
+}
+```
+It primarily reacts to AppStatus updates sent from `AuthBloc`:
+
+```dart
+sendTo(
+AppStatus(data: Status.authorized, userModel: result.data),
+BlocMembersNames.appBloc,
+);
+```
+This allows `AuthBloc` to handle the authentication process while `AppBloc` reacts accordingly and updates the app-wide state.
+
+### Launch Logic
+
+When `LaunchAppEvent` is triggered:
+
+- Checks if the app is opened for the first time using `InitAppStore`.
+- Verifies if a valid session token exists.
+- If authenticated, retrieves the user using `GetUserUseCase`.
+- Emits a final state with updated `isLaunched`, `isFirstTime`, and `appStatus`.
+
+### Logout
+
+When `LogoutEvent` is triggered:
+
+- Deletes the stored token via `SessionManager`.
+- Emits a state with `appStatus: Status.unauthorized`.
+
+### Architecture Overview
+
+This architecture ensures clean separation of concerns:
+
+- `AuthBloc` focuses on authentication workflows.
+- `AppBloc` manages global app lifecycle and reacts to auth changes.
+- Both communicate via `flutter_bloc_mediator` for loose coupling.
+
 ### AuthBloc
 
-Manages authentication state and events following the BLoC pattern.
+This BLoC handles login and registration workflows using clean architecture principles and the `flutter_bloc_mediator` package for inter-BLoC communication.
 
 #### Events (`auth_event.dart`)
 
-- `SignInRequested`: User attempts to sign in with email and password.
-- `SignUpRequested`: User attempts to sign up.
-- `SignOutRequested`: User signs out.
-- `AuthCheckRequested`: Checks if the user is authenticated.
+- `SetLoginDataEvent`: Updates login form fields (email, password).
+- `SetRegisterDataEvent`: Updates registration form fields (full name, email, password).
+- `LoginEvent`: Initiates login process after validation.
+- `RegisterEvent`: Initiates registration process after validation.
+- `ResetLoginState`: Resets the login state to its initial state.
+- `ResetRegisterState`: Resets the register state to its initial state.
+- `ResetLoginErrorState`: Clears login errors and resets status.
+- `ResetRegisterErrorState`: Clears register errors and resets status.
 
 #### States (`auth_state.dart`)
 
-- `AuthInitial`: Initial state before any action.
-- `AuthLoading`: Authentication process ongoing.
-- `AuthAuthenticated`: User is authenticated.
-- `AuthUnauthenticated`: User is not authenticated.
-- `AuthFailure`: Authentication failed with an error message.
+- `loginState`: Holds login-specific state (email, password, validation status, error, and loading state).
+- `registerState`: Holds registration-specific state.
+- Uses enums like `PageStatus` to reflect each phase: `init`, `loading`, `success`, `error`.
 
 #### Logic (`auth_bloc.dart`)
 
-- On `SignInRequested`, attempts login with `SignInUseCase`. Emits `AuthAuthenticated` on success or `AuthFailure` on error.
-- On `SignUpRequested`, uses `SignUpUseCase` to register a new user.
-- On `SignOutRequested`, emits `AuthUnauthenticated`.
-- On `AuthCheckRequested`, verifies existing session status.
+- **Form Data Update**: `SetLoginDataEvent` and `SetRegisterDataEvent` update respective form fields in the state.
+- **Validation & Submission**:
+    - On `LoginEvent`:
+        - Validates inputs using `LoginValidatorUseCase`.
+        - If valid, calls `LoginUseCase`, persists token, and sends `AppStatus` with `Status.authorized` to `AppBloc`.
+        - Emits success or failure states accordingly.
+    - On `RegisterEvent`:
+        - Similar flow using `RegisterValidatorUseCase` and `RegisterUseCase`.
+- **Error and State Reset**:
+    - `ResetLoginState` / `ResetRegisterState`: Reset the form to its initial state.
+    - `ResetLoginErrorState` / `ResetRegisterErrorState`: Clear errors and reset status to `init`.
 
-This separation keeps authentication logic clean, testable, and UI-independent.
+#### Mediator Communication
+
+This BLoC uses `flutter_bloc_mediator` to send authentication status to `AppBloc`:
+
+```dart
+sendTo(
+  AppStatus(data: Status.authorized, userModel: result.data),
+  BlocMembersNames.appBloc,
+);
+```
+
+This keeps BLoCs decoupled yet coordinated, promoting modular and scalable architecture.
 
 ---
 
@@ -182,6 +271,8 @@ A lightweight state management solution using Cubit from `flutter_bloc` to handl
 - [flutter_bloc](https://bloclibrary.dev/)
 - [Equatable](https://pub.dev/packages/equatable)
 - [GetIt](https://pub.dev/packages/get_it)
+- [flutter_bloc_mediator](https://pub.dev/packages/flutter_bloc_mediator) – Developed and maintained by me to enable decoupled BLoC communication.
+ 
 
 ---
 
