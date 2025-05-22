@@ -109,7 +109,7 @@ class _TaskItemState extends State<TaskItem>
                     color: theme.colorScheme.onSurface,
                   ),
                 ),
-                if (widget.description != null)
+                if (widget.description != null && widget.description!.isNotEmpty)
                   Padding(
                     padding: const EdgeInsets.only(top: 6.0),
                     child: Text(
