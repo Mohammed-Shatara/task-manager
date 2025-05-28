@@ -116,7 +116,7 @@ Contains core business logic and entities.
 - `SignInUseCase` — user login
 - `SignUpUseCase` — user registration
 - `GetAllTasksUseCase` — fetch all tasks
-- `GetSingleTasksUseCase` — fetch all tasks
+- `GetSingleTasksUseCase` — fetch single task
 - `AddTaskUseCase` — add a new task
 - `UpdateTaskUseCase` — update a task
 - `DeleteTaskUseCase` — delete a task
